@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyGPT • Iowa State AI Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="bg-shapes">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="logo-mark">Cy</div>
+        <div class="brand">
+          <p class="eyebrow">Iowa State · RAG</p>
+          <h1>CyGPT Chat</h1>
+        </div>
+      </div>
+      <p class="lede top-lede">Ask anything about ISU. Cited answers only.</p>
+    </header>
+
+    <section class="chat-layout">
+      <div class="panel chat-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Chat</p>
+            <h3>Ask Cy</h3>
+          </div>
+          <span class="badge">Cited answers</span>
+        </div>
+
+        <div class="chat" id="chat-log">
+          <!-- Messages injected by JS -->
+        </div>
+
+        <form class="composer" id="composer">
+          <input id="prompt" type="text" placeholder="Ask about programs, deadlines, policies..." autocomplete="off" />
+          <div class="composer-actions">
+            <button type="button" id="clear-chat" class="ghost small">Clear</button>
+            <button type="submit">Send</button>
+          </div>
+        </form>
+      </div>
+
+      <aside class="about">
+        <p class="eyebrow">About</p>
+        <h4>CyGPT · Iowa State Campus AI</h4>
+        <p>RAG chatbot grounded in official ISU domains. Answers cite the exact pages used. Built with FastAPI + OpenAI.</p>
+        <ul>
+          <li><strong>Coverage:</strong> catalog, advising, policies</li>
+          <li><strong>Freshness:</strong> recrawled on demand</li>
+          <li><strong>Privacy:</strong> no personal data stored</li>
+        </ul>
+      </aside>
+    </section>
+  </main>
+
+  <script src="./app.js" type="module"></script>
+</body>
+</html>
