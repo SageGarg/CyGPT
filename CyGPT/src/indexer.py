@@ -1,10 +1,9 @@
 """
 Indexer — builds and persists a dual search index:
   • FAISS IndexFlatIP  (dense vector search, cosine similarity)
-  • BM25Okapi           (sparse keyword search)
+  • BM25Okapi          (sparse keyword search)
 
-Both are saved to disk so ingest.py only needs to run when PDFs change.
-Retrieval uses Reciprocal Rank Fusion across both indexes.
+Includes a quality filter to reject boilerplate/nav chunks before indexing.
 """
 from __future__ import annotations
 
@@ -31,30 +30,62 @@ from config import (
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-# ── Saved-file paths ──────────────────────────────────────────────────────────
 FAISS_PATH  = INDEX_DIR / "vectors.index"
 BM25_PATH   = INDEX_DIR / "bm25.pkl"
 CHUNKS_PATH = INDEX_DIR / "chunks.pkl"
 
-
-# ── Data model ────────────────────────────────────────────────────────────────
 
 @dataclass
 class Chunk:
     url:      str
     text:     str
     chunk_id: int   = 0
-    score:    float = 0.0   # populated during retrieval, not stored in index
+    score:    float = 0.0
+
+
+# ── Quality filter ────────────────────────────────────────────────────────────
+
+# Nav phrases that appear repeatedly in ISU catalog boilerplate
+_NAV_PHRASES = [
+    "graduate college", "a-z courses", "registration and policies",
+    "exchange programs and study abroad", "academic conduct",
+    "veterinary medicine", "programs, certificates, minors",
+]
+
+def _is_boilerplate(text: str) -> bool:
+    """
+    Returns True if a chunk looks like navigation/boilerplate rather than
+    real content. Heuristics:
+      • Too many very short lines relative to total lines (nav menus)
+      • Contains 3+ known ISU nav phrases
+      • Average line length too short (pure link lists)
+    """
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    if not lines:
+        return True
+
+    # Reject if average line length is very short (nav menu pattern)
+    avg_len = sum(len(l) for l in lines) / len(lines)
+    if avg_len < 25 and len(lines) > 6:
+        return True
+
+    # Reject if >60% of lines are under 30 chars (bullet nav lists)
+    short_lines = sum(1 for l in lines if len(l) < 30)
+    if short_lines / len(lines) > 0.60 and len(lines) > 8:
+        return True
+
+    # Reject if contains multiple known nav phrases
+    lower = text.lower()
+    nav_hits = sum(1 for p in _NAV_PHRASES if p in lower)
+    if nav_hits >= 3:
+        return True
+
+    return False
 
 
 # ── Chunking ──────────────────────────────────────────────────────────────────
 
 def _chunk_text(text: str, url: str) -> List[Chunk]:
-    """
-    Split page text into overlapping chunks.
-    Prefers paragraph boundaries over mid-sentence splits.
-    """
-    # Normalise whitespace
     text = re.sub(r"\n{3,}", "\n\n", text.strip())
     text = re.sub(r"[ \t]+", " ", text)
 
@@ -63,14 +94,13 @@ def _chunk_text(text: str, url: str) -> List[Chunk]:
         end   = min(len(text), start + CHUNK_SIZE)
         piece = text[start:end].strip()
 
-        # Try to end on a paragraph boundary within the last 20 %
         if end < len(text):
             boundary = piece.rfind("\n\n")
             if boundary > CHUNK_SIZE * 0.8:
                 end   = start + boundary
                 piece = text[start:end].strip()
 
-        if len(piece) > 80:
+        if len(piece) > 80 and not _is_boilerplate(piece):
             chunks.append(Chunk(url=url, text=piece, chunk_id=cid))
             cid += 1
 
@@ -83,16 +113,24 @@ def _chunk_text(text: str, url: str) -> List[Chunk]:
 
 def build_chunks(scraped: dict[str, str]) -> List[Chunk]:
     chunks: List[Chunk] = []
+    rejected = 0
     for url, text in scraped.items():
+        before = len(chunks)
         chunks.extend(_chunk_text(text, url))
-    logger.info(f"Built {len(chunks)} chunks from {len(scraped)} pages")
+        added = len(chunks) - before
+        if added == 0:
+            rejected += 1
+
+    logger.info(
+        f"Built {len(chunks)} chunks from {len(scraped)} sources "
+        f"({rejected} sources rejected as boilerplate)"
+    )
     return chunks
 
 
 # ── Embedding ─────────────────────────────────────────────────────────────────
 
 def embed_texts(texts: List[str], batch_size: int = 512) -> np.ndarray:
-    """Embed texts in batches; returns float32 array of shape (N, EMBED_DIM)."""
     all_vecs: list[list[float]] = []
     for i in tqdm(range(0, len(texts), batch_size), desc="🔢 Embedding batches"):
         resp = client.embeddings.create(model=EMBED_MODEL, input=texts[i:i + batch_size])
@@ -103,26 +141,22 @@ def embed_texts(texts: List[str], batch_size: int = 512) -> np.ndarray:
 # ── Build & save ──────────────────────────────────────────────────────────────
 
 def build_and_save(chunks: List[Chunk]) -> Tuple[faiss.IndexFlatIP, BM25Okapi]:
-    """Embed all chunks, build FAISS + BM25, persist everything to INDEX_DIR."""
     texts = [c.text for c in chunks]
 
-    # ── Dense vector index ────────────────────────────────────────────────────
     logger.info(f"Embedding {len(texts)} chunks with {EMBED_MODEL}…")
     vecs = embed_texts(texts)
-    faiss.normalize_L2(vecs)            # cosine sim via inner product
+    faiss.normalize_L2(vecs)
     index = faiss.IndexFlatIP(EMBED_DIM)
     index.add(vecs)
     faiss.write_index(index, str(FAISS_PATH))
-    logger.success(f"FAISS index saved ({index.ntotal} vectors, dim={EMBED_DIM})")
+    logger.success(f"FAISS index saved ({index.ntotal} vectors)")
 
-    # ── Sparse BM25 index ─────────────────────────────────────────────────────
     logger.info("Building BM25 index…")
     tokenized = [t.lower().split() for t in texts]
     bm25 = BM25Okapi(tokenized)
     BM25_PATH.write_bytes(pickle.dumps(bm25))
     logger.success("BM25 index saved")
 
-    # ── Chunk metadata ────────────────────────────────────────────────────────
     CHUNKS_PATH.write_bytes(pickle.dumps(chunks))
     logger.success(f"Chunk store saved → {len(chunks)} chunks")
 
@@ -132,10 +166,9 @@ def build_and_save(chunks: List[Chunk]) -> Tuple[faiss.IndexFlatIP, BM25Okapi]:
 # ── Load ──────────────────────────────────────────────────────────────────────
 
 def load_index() -> Tuple[faiss.IndexFlatIP, BM25Okapi, List[Chunk]]:
-    """Load all index artefacts from disk. Raises FileNotFoundError if missing."""
     if not FAISS_PATH.exists():
         raise FileNotFoundError(
-            "No index found. Run `python ingest.py` first to build the index."
+            "No index found. Run `python ingest.py` first."
         )
     index  = faiss.read_index(str(FAISS_PATH))
     bm25   = pickle.loads(BM25_PATH.read_bytes())

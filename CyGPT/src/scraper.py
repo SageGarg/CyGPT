@@ -2,15 +2,14 @@
 Async Web Scraper with persistent disk cache.
 
 Uses:
-  • httpx  – async HTTP/2 client (much faster than requests)
-  • trafilatura – state-of-the-art main-content extractor
-    (beats custom BeautifulSoup parsers on recall and precision)
-  • diskcache – SQLite-backed cache so re-runs are instant
-  • asyncio Semaphore – polite concurrency cap
+  • httpx      – async HTTP/2 client
+  • trafilatura – best-in-class main-content extractor
+  • diskcache  – SQLite-backed 7-day cache
 """
 from __future__ import annotations
 
 import asyncio
+import re
 from typing import Dict, Optional
 
 import diskcache
@@ -24,7 +23,6 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 
 from config import CACHE_DIR, MAX_CONCURRENT, REQUEST_TIMEOUT
 
-# ── Persistent cache (1 GB, 7-day TTL) ───────────────────────────────────────
 _cache = diskcache.Cache(str(CACHE_DIR), size_limit=2**30)
 
 USER_AGENT = (
@@ -32,16 +30,29 @@ USER_AGENT = (
     "contact: github.com/SageGarg/CyGPT)"
 )
 
-# ── Core fetch ────────────────────────────────────────────────────────────────
+# ── Skip URLs that are pure search/nav pages with no real content ─────────────
+_SKIP_RE = re.compile(
+    r"(/search/\?)"           # catalog.iastate.edu/search/?P=STAT%20542
+    r"|(\?P=[A-Z]+%20\d+)"   # any ?P=COURSE%20number pattern
+    r"|(/search/\?commit=)"
+)
+
+
+def _should_skip(url: str) -> bool:
+    return bool(_SKIP_RE.search(url))
+
 
 async def _fetch_one(
     client: httpx.AsyncClient,
     url: str,
     semaphore: asyncio.Semaphore,
 ) -> Optional[str]:
-    """Fetch and extract text from a single URL. Returns None on failure."""
 
-    # Cache hit – skip network entirely
+    if _should_skip(url):
+        logger.debug(f"Skipping nav/search URL: {url}")
+        return None
+
+    # Cache hit
     cached = _cache.get(url)
     if cached is not None:
         return cached  # type: ignore[return-value]
@@ -53,21 +64,20 @@ async def _fetch_one(
 
             ctype = r.headers.get("content-type", "")
             if "pdf" in ctype or url.lower().endswith(".pdf"):
-                return None  # skip binary PDFs
+                return None
 
-            # trafilatura: removes boilerplate (nav, footer, ads) automatically
             text = trafilatura.extract(
                 r.text,
                 include_tables=True,
                 include_links=False,
                 include_comments=False,
-                no_fallback=False,      # use readability fallback if needed
+                no_fallback=False,
                 favor_precision=False,
                 favor_recall=True,
             )
 
             if text and len(text.strip()) > 300:
-                _cache.set(url, text.strip(), expire=86_400 * 7)  # 7 days
+                _cache.set(url, text.strip(), expire=86_400 * 7)
                 return text.strip()
 
         except httpx.HTTPStatusError as e:
@@ -78,13 +88,8 @@ async def _fetch_one(
     return None
 
 
-# ── Batch entrypoint ──────────────────────────────────────────────────────────
-
 async def scrape_all(urls: list[str]) -> Dict[str, str]:
-    """
-    Async-scrape all *urls* with capped concurrency.
-    Returns {url: clean_text} for every successful fetch.
-    """
+    """Async-scrape all urls. Returns {url: clean_text}."""
     semaphore = asyncio.Semaphore(MAX_CONCURRENT)
     headers = {
         "User-Agent": USER_AGENT,
@@ -95,7 +100,10 @@ async def scrape_all(urls: list[str]) -> Dict[str, str]:
     async with httpx.AsyncClient(
         headers=headers,
         http2=True,
-        limits=httpx.Limits(max_connections=MAX_CONCURRENT + 5, max_keepalive_connections=MAX_CONCURRENT),
+        limits=httpx.Limits(
+            max_connections=MAX_CONCURRENT + 5,
+            max_keepalive_connections=MAX_CONCURRENT,
+        ),
     ) as client:
         tasks = [_fetch_one(client, url, semaphore) for url in urls]
         texts = await atqdm.gather(*tasks, desc="🌐 Scraping pages")
@@ -106,9 +114,5 @@ async def scrape_all(urls: list[str]) -> Dict[str, str]:
         if text is not None
     }
 
-    cached_hits = sum(1 for url in urls if _cache.get(url) is not None) - len(results)
-    logger.info(
-        f"Scraped {len(results)}/{len(urls)} pages "
-        f"(~{max(cached_hits,0)} served from cache)"
-    )
+    logger.info(f"Scraped {len(results)}/{len(urls)} pages")
     return results

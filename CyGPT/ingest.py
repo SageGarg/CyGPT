@@ -2,14 +2,16 @@
 """
 CyGPT Ingestion Pipeline
 ========================
-Run this once (or whenever your PDFs change) to:
-  1. Extract URLs from every PDF in data/pdfs/
-  2. Async-scrape all pages (with 7-day disk cache)
-  3. Chunk, embed, and persist a hybrid FAISS + BM25 index
+Sources indexed:
+  1. Text extracted directly from every PDF  ← NEW: catches tables, plans, etc.
+  2. Web pages scraped from URLs found in PDFs
+
+Run this once, or whenever your PDFs change.
 
 Usage:
-  python ingest.py                  # uses MAX_URLS from config.py
-  python ingest.py --max-urls 500   # override URL cap
+  python ingest.py                  # default MAX_URLS from config.py
+  python ingest.py --max-urls 500
+  python ingest.py --pdf-only       # skip web scraping (fast rebuild from PDFs)
 """
 from __future__ import annotations
 
@@ -24,11 +26,10 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-# Make sure project root is on path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from config import ALLOWED_DOMAINS, MAX_URLS, PDF_DIR
-from src.pdf_parser import extract_urls_from_folder
+from src.pdf_parser import extract_urls_from_folder, extract_all_pdf_texts
 from src.scraper import scrape_all
 from src.indexer import build_chunks, build_and_save
 
@@ -37,62 +38,70 @@ console = Console()
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="CyGPT ingestion pipeline")
-    p.add_argument("--max-urls", type=int, default=MAX_URLS, help="URL cap per run")
-    p.add_argument("--no-cache", action="store_true", help="Ignore existing disk cache")
+    p.add_argument("--max-urls", type=int, default=MAX_URLS)
+    p.add_argument("--pdf-only", action="store_true", help="Skip web scraping")
     return p.parse_args()
 
 
-async def run(max_urls: int) -> None:
+async def run(max_urls: int, pdf_only: bool) -> None:
     t0 = time.perf_counter()
 
     console.print(Panel(
         "[bold cyan]CyGPT — Ingestion Pipeline[/bold cyan]\n"
-        "[dim]PDFs → URLs → Scrape → Embed → Index[/dim]",
+        "[dim]PDFs + Web Pages → Embed → Index[/dim]",
         expand=False,
     ))
 
-    # ── Step 1: PDF → URLs ────────────────────────────────────────────────────
-    console.rule("[bold]Step 1 / 3  PDF Parsing[/bold]")
-    pdfs  = list(PDF_DIR.glob("*.pdf"))
-    urls  = extract_urls_from_folder(PDF_DIR, ALLOWED_DOMAINS)
-    urls  = urls[:max_urls]
-    console.print(f"  PDFs found  : [green]{len(pdfs)}[/green]")
-    console.print(f"  URLs queued : [green]{len(urls)}[/green]  (cap={max_urls})")
+    # ── Source 1: PDF text content ────────────────────────────────────────────
+    console.rule("[bold]Step 1 / 3  Extract PDF Text[/bold]")
+    pdf_texts = extract_all_pdf_texts(PDF_DIR)
+    console.print(f"  PDFs with text : [green]{len(pdf_texts)}[/green]")
+    for key, text in pdf_texts.items():
+        console.print(f"  [dim]{key}[/dim] → {len(text):,} chars")
 
-    if not urls:
-        console.print(
-            "[yellow]⚠ No URLs found. Make sure PDFs are in data/pdfs/ "
-            "and ALLOWED_DOMAINS is correct.[/yellow]"
-        )
+    # ── Source 2: Web pages linked from PDFs ──────────────────────────────────
+    scraped: dict[str, str] = {}
+    if not pdf_only:
+        console.rule("[bold]Step 2 / 3  Scrape Linked Web Pages[/bold]")
+        pdfs = list(PDF_DIR.glob("*.pdf"))
+        urls = extract_urls_from_folder(PDF_DIR, ALLOWED_DOMAINS)[:max_urls]
+        console.print(f"  URLs queued : [green]{len(urls)}[/green]  (cap={max_urls})")
+        if urls:
+            scraped = await scrape_all(urls)
+            console.print(f"  Pages scraped : [green]{len(scraped)}[/green] / {len(urls)}")
+    else:
+        console.print("[yellow]--pdf-only: skipping web scraping[/yellow]")
+
+    # ── Merge both sources ────────────────────────────────────────────────────
+    all_sources = {**pdf_texts, **scraped}
+    if not all_sources:
+        console.print("[red]No content found. Check data/pdfs/ and ALLOWED_DOMAINS.[/red]")
         return
 
-    # ── Step 2: Async scrape ──────────────────────────────────────────────────
-    console.rule("[bold]Step 2 / 3  Web Scraping[/bold]")
-    scraped = await scrape_all(urls)
-    console.print(f"  Pages scraped : [green]{len(scraped)}[/green] / {len(urls)}")
+    console.print(
+        f"\n  [bold]Total sources:[/bold] "
+        f"[green]{len(pdf_texts)} PDF doc(s)[/green] + "
+        f"[green]{len(scraped)} web page(s)[/green] = "
+        f"[cyan]{len(all_sources)} total[/cyan]"
+    )
 
-    if not scraped:
-        console.print("[red]No pages scraped. Check network / ALLOWED_DOMAINS.[/red]")
-        return
-
-    # ── Step 3: Embed & index ─────────────────────────────────────────────────
-    console.rule("[bold]Step 3 / 3  Embedding & Indexing[/bold]")
-    chunks = build_chunks(scraped)
+    # ── Embed & index ─────────────────────────────────────────────────────────
+    console.rule("[bold]Step 3 / 3  Embed & Build Index[/bold]")
+    chunks = build_chunks(all_sources)
     build_and_save(chunks)
 
     elapsed = time.perf_counter() - t0
 
-    # ── Summary ───────────────────────────────────────────────────────────────
     table = Table(show_header=False, box=None, padding=(0, 2))
-    table.add_row("PDFs scanned",    f"[green]{len(pdfs)}[/green]")
-    table.add_row("URLs scraped",    f"[green]{len(scraped)}[/green]")
+    table.add_row("PDF sources",     f"[green]{len(pdf_texts)}[/green]")
+    table.add_row("Web pages",       f"[green]{len(scraped)}[/green]")
     table.add_row("Chunks indexed",  f"[green]{len(chunks)}[/green]")
     table.add_row("Time elapsed",    f"[cyan]{elapsed:.1f}s[/cyan]")
 
     console.print(Panel(table, title="[bold green]✓  Done![/bold green]", expand=False))
-    console.print("\nStart the app with:  [bold]streamlit run app.py[/bold]\n")
+    console.print("\nStart the app:  [bold]streamlit run app.py[/bold]\n")
 
 
 if __name__ == "__main__":
     args = parse_args()
-    asyncio.run(run(max_urls=args.max_urls))
+    asyncio.run(run(max_urls=args.max_urls, pdf_only=args.pdf_only))
