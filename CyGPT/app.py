@@ -706,14 +706,14 @@ if page == "💬  Chat":
         st.write("")
 
     # Chat history display
-    for msg in st.session_state.messages:
+    for msg_idx, msg in enumerate(st.session_state.messages):
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
             if msg["role"] == "assistant":
                 if msg.get("followups"):
                     fc = st.columns(len(msg["followups"]))
-                    for col, fq in zip(fc, msg["followups"]):
-                        if col.button(fq, key=f"fq_{hash(fq)}", use_container_width=True):
+                    for fq_idx, (col, fq) in enumerate(zip(fc, msg["followups"])):
+                        if col.button(fq, key=f"fq_{msg_idx}_{fq_idx}", use_container_width=True):
                             st.session_state.pending_q = fq
                             st.rerun()
                 if msg.get("sources"):
@@ -876,8 +876,8 @@ if page == "💬  Chat":
 
             if followups:
                 fc = st.columns(len(followups))
-                for col, fq in zip(fc, followups):
-                    if col.button(fq, key=f"fqn_{hash(fq)}", use_container_width=True):
+                for fq_idx, (col, fq) in enumerate(zip(fc, followups)):
+                    if col.button(fq, key=f"fqn_new_{fq_idx}_{len(st.session_state.messages)}", use_container_width=True):
                         st.session_state.pending_q = fq
                         st.rerun()
             if hits:
