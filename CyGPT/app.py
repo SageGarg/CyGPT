@@ -1,5 +1,5 @@
 from __future__ import annotations
-import sys
+import sys, base64
 from pathlib import Path
 import streamlit as st
 
@@ -12,272 +12,505 @@ from src.features import (
     stream_comparison, transcribe_audio, parse_followups,
 )
 
+# ── Logo as base64 for CSS embedding ─────────────────────────────────────────
+LOGO_PATH = Path(__file__).parent / "static" / "logo.png"
+if LOGO_PATH.exists():
+    _logo_b64 = base64.b64encode(LOGO_PATH.read_bytes()).decode()
+    LOGO_URI = f"data:image/png;base64,{_logo_b64}"
+else:
+    LOGO_URI = ""
+
 st.set_page_config(
     page_title="CyGPT | ISU Academic Assistant",
     page_icon="🌪️",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
+# ══════════════════════════════════════════════════════════════════════════════
+#  CSS
+# ══════════════════════════════════════════════════════════════════════════════
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-/* ─── GLOBAL RESET ─────────────────────────────────── */
+/* ─── VARIABLES ─────────────────────────────────────── */
+:root {
+    --isu-red: #C8102E;
+    --isu-red-glow: rgba(200, 16, 46, 0.4);
+    --isu-gold: #F1BE48;
+    --isu-gold-glow: rgba(241, 190, 72, 0.3);
+    --isu-dark-red: #9B0020;
+    --bg-dark: #1a1a2e;
+    --bg-card: #1e1e33;
+    --bg-card-hover: #25253d;
+    --bg-elevated: #2a2a45;
+    --bg-sidebar: #111122;
+    --text-primary: #F0F2F5;
+    --text-secondary: #8B92A5;
+    --text-muted: #5A6178;
+    --border-color: rgba(255,255,255,0.08);
+    --border-glow: rgba(200, 16, 46, 0.3);
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
+    --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+    --shadow-glow-red: 0 0 30px rgba(200,16,46,0.15);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 html, body { margin:0; padding:0; }
 
+/* ─── GLOBAL ────────────────────────────────────────── */
 .stApp,
 [data-testid="stAppViewContainer"],
 [data-testid="stAppViewBlockContainer"],
 section.main,
 section.main > div,
 [data-testid="stVerticalBlock"] {
-    background: #F4F4F4 !important;
-    font-family: 'Source Sans 3', Arial, sans-serif !important;
-    color: #1A1A1A !important;
+    background: var(--bg-dark) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    color: var(--text-primary) !important;
+    -webkit-font-smoothing: antialiased;
 }
 
 .block-container {
-    padding: 0 !important;
+    padding: 1.5rem 3rem 6rem !important;
     max-width: 100% !important;
 }
 
-/* ─── HIDE ALL STREAMLIT CHROME ────────────────────── */
+/* ─── HIDE STREAMLIT CHROME ─────────────────────────── */
 header[data-testid="stHeader"],
 #MainMenu, footer,
 [data-testid="stToolbar"],
-[data-testid="stDecoration"],
-[data-testid="stSidebar"],
+[data-testid="stDecoration"] {
+    display: none !important;
+}
+
+/* ─── SIDEBAR ───────────────────────────────────────── */
+[data-testid="stSidebar"] {
+    background: var(--bg-sidebar) !important;
+    border-right: 1px solid var(--border-color) !important;
+    width: 220px !important;
+    min-width: 220px !important;
+}
+[data-testid="stSidebar"] > div:first-child {
+    background: var(--bg-sidebar) !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+[data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+    gap: 0 !important;
+}
+
+/* Sidebar collapse button */
 [data-testid="collapsedControl"],
 [data-testid="stSidebarCollapsedControl"] {
-    display: none !important;
-}
-
-/* ─── TOP BAR ───────────────────────────────────────── */
-.topbar {
-    background: #C8102E;
-    border-bottom: 4px solid #F1BE48;
-    padding: 10px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.topbar-left { display: flex; align-items: center; gap: 14px; }
-.topbar-brand { line-height: 1.1; }
-.topbar-brand .uni  { font-size: 0.6rem; color: #F1BE48; letter-spacing: 3px; font-weight: 700; display:block; }
-.topbar-brand .name { font-size: 1rem; color: white; font-weight: 900; letter-spacing: 0.5px; display:block; }
-.topbar-divider { color: rgba(255,255,255,0.35); font-size: 1.4rem; }
-.topbar-app { font-size: 1.15rem; font-weight: 700; color: white; }
-.topbar-right { font-size: 0.8rem; color: rgba(255,255,255,0.65); }
-
-/* ─── TABS ──────────────────────────────────────────── */
-[data-testid="stTabs"] {
-    background: #222222 !important;
-    margin: 0 !important;
-    padding: 0 28px !important;
-}
-[data-testid="stTabs"] > div:first-child {
-    background: #222222 !important;
-    border-bottom: 3px solid #C8102E !important;
-    gap: 0 !important;
-}
-[data-testid="stTabs"] [data-baseweb="tab-list"] {
-    background: #222222 !important;
-    gap: 0 !important;
-}
-[data-testid="stTabs"] [data-baseweb="tab-highlight"],
-[data-testid="stTabs"] [data-baseweb="tab-border"] {
-    display: none !important;
-}
-button[data-baseweb="tab"] {
+    color: var(--text-secondary) !important;
     background: transparent !important;
-    color: rgba(255,255,255,0.65) !important;
-    font-family: 'Source Sans 3', Arial, sans-serif !important;
-    font-size: 0.92rem !important;
-    font-weight: 600 !important;
-    padding: 14px 26px !important;
-    border: none !important;
-    border-bottom: 3px solid transparent !important;
+}
+
+/* ─── SIDEBAR RADIO — hide dots, make clean nav ────── */
+[data-testid="stSidebar"] .stRadio > div {
+    gap: 0 !important;
+}
+[data-testid="stSidebar"] .stRadio > div > label {
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    padding: 11px 20px !important;
     border-radius: 0 !important;
-    margin-bottom: -3px !important;
+    cursor: pointer !important;
+    transition: var(--transition) !important;
+    margin: 0 !important;
+    border-left: 3px solid transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0 !important;
 }
-button[data-baseweb="tab"]:hover {
+/* Hide the radio circle completely */
+[data-testid="stSidebar"] .stRadio > div > label > div:first-child {
+    display: none !important;
+}
+[data-testid="stSidebar"] .stRadio > div > label:hover {
+    background: rgba(255,255,255,0.04) !important;
+    color: var(--text-primary) !important;
+}
+[data-testid="stSidebar"] .stRadio > div > label[data-checked="true"],
+[data-testid="stSidebar"] .stRadio > div > label:has(input:checked) {
+    background: rgba(200,16,46,0.1) !important;
     color: white !important;
-    background: rgba(255,255,255,0.07) !important;
+    border-left: 3px solid var(--isu-red) !important;
+    font-weight: 600 !important;
 }
-button[data-baseweb="tab"][aria-selected="true"] {
+/* Hide the "Navigation" label text */
+[data-testid="stSidebar"] .stRadio > label {
+    display: none !important;
+}
+
+/* ─── SIDEBAR BUTTONS ──────────────────────────────── */
+[data-testid="stSidebar"] .stButton button {
+    background: linear-gradient(135deg, #2a3a5c 0%, #1e2d4d 100%) !important;
     color: white !important;
-    border-bottom: 3px solid #F1BE48 !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    border-radius: var(--radius-sm) !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    padding: 10px 16px !important;
+    width: 100% !important;
+    transition: var(--transition) !important;
+    margin: 4px 0 !important;
 }
-[data-testid="stTabsContent"] {
-    padding: 28px 32px 100px !important;
-    max-width: 1100px !important;
-    margin: 0 auto !important;
-    background: #F4F4F4 !important;
+[data-testid="stSidebar"] .stButton button:hover {
+    background: linear-gradient(135deg, #3a4a6c 0%, #2e3d5d 100%) !important;
+    border-color: rgba(255,255,255,0.2) !important;
+}
+
+/* ─── SIDEBAR DIVIDER ──────────────────────────────── */
+[data-testid="stSidebar"] hr {
+    border: none !important;
+    border-top: 1px solid var(--border-color) !important;
+    margin: 12px 16px !important;
+}
+
+/* ─── SIDEBAR TEXT ─────────────────────────────────── */
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label {
+    color: var(--text-secondary) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* ─── ANIMATIONS ────────────────────────────────────── */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(200,16,46,0.2); }
+    50%      { box-shadow: 0 0 40px rgba(200,16,46,0.4); }
+}
+@keyframes starRotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
 }
 
 /* ─── HERO BANNER ───────────────────────────────────── */
 .hero {
-    background: linear-gradient(135deg, #C8102E 0%, #8B0000 100%);
-    border-radius: 12px;
-    border-bottom: 5px solid #F1BE48;
-    padding: 26px 32px;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 20px rgba(200,16,46,0.18);
+    background: linear-gradient(135deg, var(--isu-red) 0%, var(--isu-dark-red) 60%, #3a0008 100%);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(200,16,46,0.3);
+    animation: fadeInUp 0.6s ease forwards;
+    box-shadow: 0 8px 40px rgba(200,16,46,0.2);
 }
-.hero h1 { color:white !important; font-size:1.9rem !important; font-weight:900 !important; margin:0 0 6px !important; }
-.hero p  { color:rgba(255,255,255,0.85) !important; font-size:0.95rem !important; margin:0 !important; }
-.hero .gold { color:#F1BE48 !important; font-weight:700 !important; }
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -30%;
+    width: 60%; height: 200%;
+    background: radial-gradient(ellipse, rgba(241,190,72,0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+.hero h1 {
+    margin: 0 0 10px 0; font-size: 1.8rem;
+    font-weight: 900; color: white !important;
+    display: flex; align-items: center; gap: 12px;
+}
+.hero p {
+    margin: 0; font-size: 0.95rem; line-height: 1.6;
+    color: rgba(255,255,255,0.85) !important; max-width: 700px;
+}
+.hero .gold { color: var(--isu-gold) !important; font-weight: 700; }
+
+/* ─── INDEXED BADGE ─────────────────────────────────── */
+.index-badge {
+    text-align: right;
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
 
 /* ─── SECTION LABEL ─────────────────────────────────── */
 .sec-label {
-    font-size: 0.72rem; font-weight: 700; color: #999;
-    text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--text-muted);
+    margin: 24px 0 14px;
+    padding-left: 4px;
 }
 
-/* ─── BUTTONS ───────────────────────────────────────── */
-.stButton > button {
-    background: white !important;
-    color: #C8102E !important;
-    border: 2px solid #C8102E !important;
-    border-radius: 8px !important;
-    font-family: 'Source Sans 3', Arial, sans-serif !important;
-    font-size: 0.87rem !important;
-    font-weight: 600 !important;
-    padding: 10px 14px !important;
-    white-space: normal !important;
-    height: auto !important;
-    min-height: 50px !important;
-    transition: all 0.15s !important;
-    width: 100% !important;
+/* ─── STARTER PROMPT BUTTONS ────────────────────────── */
+[data-testid="stVerticalBlock"] .stButton button {
+    background: var(--bg-card) !important;
+    border: 1px solid rgba(200,16,46,0.25) !important;
+    color: var(--text-primary) !important;
+    border-radius: var(--radius-md) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    padding: 14px 20px !important;
+    transition: var(--transition) !important;
+    text-align: center !important;
 }
-.stButton > button:hover {
-    background: #C8102E !important;
+[data-testid="stVerticalBlock"] .stButton button:hover {
+    background: var(--bg-card-hover) !important;
+    border-color: var(--isu-red) !important;
+    box-shadow: var(--shadow-glow-red) !important;
+    transform: translateY(-2px) !important;
     color: white !important;
-    box-shadow: 0 4px 12px rgba(200,16,46,0.25) !important;
-    transform: translateY(-1px) !important;
 }
+
+/* ─── PRIMARY BUTTONS ───────────────────────────────── */
 [data-testid="baseButton-primary"] {
-    background: #C8102E !important;
+    background: linear-gradient(135deg, var(--isu-red), var(--isu-dark-red)) !important;
     color: white !important;
     border: none !important;
     font-weight: 700 !important;
-    padding: 12px 28px !important;
-    border-radius: 8px !important;
-    box-shadow: 0 3px 10px rgba(200,16,46,0.3) !important;
-    font-size: 0.95rem !important;
+    padding: 14px 32px !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: 0 4px 20px var(--isu-red-glow) !important;
+    font-size: 1rem !important;
 }
 [data-testid="baseButton-primary"]:hover {
-    background: #9B0020 !important;
-    transform: translateY(-1px) !important;
+    box-shadow: 0 8px 30px var(--isu-red-glow) !important;
+    transform: translateY(-2px) !important;
 }
 
 /* ─── CHAT MESSAGES ─────────────────────────────────── */
 [data-testid="stChatMessage"] {
-    background: white !important;
-    border: 1px solid #E5E5E5 !important;
-    border-radius: 12px !important;
-    margin-bottom: 10px !important;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    margin-bottom: 20px !important;
+    padding: 24px !important;
+    box-shadow: var(--shadow-card) !important;
+    animation: fadeInUp 0.4s ease forwards;
 }
 [data-testid="stChatMessage"] p,
 [data-testid="stChatMessage"] li,
 [data-testid="stChatMessage"] td,
 [data-testid="stChatMessage"] th,
-[data-testid="stChatMessage"] span { color: #1A1A1A !important; }
+[data-testid="stChatMessage"] span { 
+    color: var(--text-primary) !important; 
+    font-size: 1rem !important; 
+    line-height: 1.7 !important; 
+}
+[data-testid="stChatMessage"] strong { color: var(--isu-gold) !important; }
+[data-testid="stChatMessage"] code { 
+    background: rgba(241,190,72,0.1) !important; 
+    color: var(--isu-gold) !important; 
+    padding: 2px 6px !important; 
+    border-radius: 4px !important; 
+}
 [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {
-    border-left: 5px solid #F1BE48 !important;
-    background: #FFFDF0 !important;
+    border-left: 4px solid var(--isu-gold) !important;
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(241,190,72,0.03) 100%) !important;
 }
 [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {
-    border-left: 5px solid #C8102E !important;
+    border-left: 4px solid var(--isu-red) !important;
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(200,16,46,0.03) 100%) !important;
 }
 
 /* ─── CHAT INPUT ────────────────────────────────────── */
+[data-testid="stBottom"],
+[data-testid="stBottom"] > div,
+[data-testid="stBottom"] > div > div,
+[data-testid="stBottom"] [data-testid="stVerticalBlock"],
+[data-testid="stBottom"] [data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stBottom"] .stElementContainer {
+    background: #111122 !important;
+    background-color: #111122 !important;
+}
 [data-testid="stBottom"] {
-    background: #EFEFEF !important;
-    border-top: 2px solid #E0E0E0 !important;
-    padding: 10px 32px !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-top: 1px solid var(--border-color) !important;
+    padding: 16px 40px 24px !important;
 }
 [data-testid="stChatInputContainer"] {
-    background: white !important;
-    border: 2px solid #DCDCDC !important;
-    border-radius: 12px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07) !important;
+    background: #25253d !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+    transition: var(--transition) !important;
 }
 [data-testid="stChatInputContainer"]:focus-within {
-    border-color: #C8102E !important;
-    box-shadow: 0 0 0 3px rgba(200,16,46,0.1) !important;
+    border-color: var(--isu-red) !important;
+    box-shadow: 0 0 0 3px var(--isu-red-glow), 0 4px 20px rgba(0,0,0,0.3) !important;
 }
 [data-testid="stChatInputTextArea"] {
-    background: white !important;
-    color: #1A1A1A !important;
-    font-family: 'Source Sans 3', Arial, sans-serif !important;
-    font-size: 0.97rem !important;
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.95rem !important;
 }
-[data-testid="stChatInputTextArea"]::placeholder { color: #BBBBBB !important; }
+[data-testid="stChatInputTextArea"]::placeholder { color: var(--text-muted) !important; }
+/* Send button */
+[data-testid="stChatInputSubmitButton"] button {
+    background: rgba(255,255,255,0.1) !important;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+    color: var(--text-secondary) !important;
+    border-radius: 50% !important;
+}
+[data-testid="stChatInputSubmitButton"] button:hover {
+    background: var(--isu-red) !important;
+    color: white !important;
+}
 
 /* ─── TEXT INPUTS ───────────────────────────────────── */
 .stTextInput > div > div,
 .stTextArea > div > div {
-    background: white !important;
-    border: 1.5px solid #DCDCDC !important;
-    border-radius: 8px !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
 }
 .stTextInput input, .stTextArea textarea {
-    background: white !important;
-    color: #1A1A1A !important;
-    font-family: 'Source Sans 3', Arial, sans-serif !important;
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    font-family: 'Inter', sans-serif !important;
+    padding: 14px 18px !important;
 }
-.stTextInput input::placeholder, .stTextArea textarea::placeholder { color: #BBBBBB !important; }
+.stTextInput input::placeholder, .stTextArea textarea::placeholder { color: var(--text-muted) !important; }
 .stTextInput > div > div:focus-within,
 .stTextArea > div > div:focus-within {
-    border-color: #C8102E !important;
-    box-shadow: 0 0 0 3px rgba(200,16,46,0.1) !important;
+    border-color: var(--isu-red) !important;
+    box-shadow: 0 0 0 3px var(--isu-red-glow) !important;
 }
 .stTextInput label, .stTextArea label {
-    color: #444 !important; font-weight: 700 !important;
-    font-size: 0.8rem !important; text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
+    color: var(--text-secondary) !important; font-weight: 600 !important;
+    font-size: 0.82rem !important; letter-spacing: 0.5px !important;
 }
 
 /* ─── SOURCE CARDS ──────────────────────────────────── */
 .src {
-    background: white; border: 1px solid #E5E5E5;
-    border-left: 5px solid #C8102E; border-radius: 0 10px 10px 0;
-    padding: 12px 16px; margin: 6px 0;
-    font-size: 0.83rem; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--isu-red);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px; margin: 10px 0;
+    font-size: 0.88rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: var(--transition);
 }
-.src a { color: #C8102E !important; font-weight:700; text-decoration:none; font-size:0.82rem; }
-.src a:hover { text-decoration: underline; }
-.src small { color: #777 !important; display:block; margin-top:4px; line-height:1.4; }
+.src:hover {
+    transform: translateX(6px);
+    background: var(--bg-card-hover);
+    box-shadow: var(--shadow-glow-red);
+}
+.src a { color: var(--text-primary) !important; font-weight: 600; text-decoration: none; display: block; margin-bottom: 6px; }
+.src a:hover { color: var(--isu-gold) !important; }
+.src small { color: var(--text-secondary) !important; display: block; line-height: 1.5; }
 .badge {
-    display:inline-block; background:#F1BE48; color:#5A3C00;
-    border-radius:20px; padding:2px 9px; font-size:0.7rem;
-    font-weight:800; margin-left:8px;
+    display: inline-flex; align-items: center;
+    background: rgba(241, 190, 72, 0.15); color: var(--isu-gold);
+    border-radius: 20px; padding: 3px 12px; font-size: 0.72rem;
+    font-weight: 700; margin-left: 10px; vertical-align: middle;
+    border: 1px solid rgba(241,190,72,0.2);
 }
 
 /* ─── EXPANDERS ─────────────────────────────────────── */
 [data-testid="stExpander"] {
-    background: white !important; border: 1px solid #E5E5E5 !important;
-    border-radius: 10px !important; overflow: hidden !important;
+    background: var(--bg-card) !important; 
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important; 
+    overflow: hidden !important;
 }
-[data-testid="stExpander"] summary { background: #F9F9F9 !important; }
-[data-testid="stExpander"] summary p { color: #C8102E !important; font-weight:700 !important; font-size:0.88rem !important; }
-
-/* ─── SETTINGS ROW ──────────────────────────────────── */
-.settings-bar {
-    background: white; border: 1px solid #E5E5E5; border-radius: 10px;
-    padding: 14px 20px; margin-bottom: 20px;
-    display: flex; align-items: center; gap: 20px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+[data-testid="stExpander"] summary { 
+    background: var(--bg-elevated) !important; 
+    padding: 14px 20px !important;
+}
+[data-testid="stExpander"] summary p { 
+    color: var(--isu-gold) !important; 
+    font-weight: 600 !important; 
+    font-size: 0.9rem !important; 
+}
+[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+    background: var(--bg-card) !important;
 }
 
 /* ─── MISC ──────────────────────────────────────────── */
-hr { border:none !important; border-top: 2px solid #E8E8E8 !important; margin: 20px 0 !important; }
-[data-testid="stToggle"] span { color: #1A1A1A !important; font-size:0.9rem !important; }
-[data-testid="stAudioInput"] { background: white !important; border: 1.5px solid #DCDCDC !important; border-radius: 8px !important; }
-[data-testid="stAlert"] { border-radius: 10px !important; }
+hr { border: none !important; border-top: 1px solid var(--border-color) !important; margin: 24px 0 !important; }
+[data-testid="stToggle"] span { color: var(--text-primary) !important; font-weight: 500 !important; }
+[data-testid="stAudioInput"] { background: var(--bg-card) !important; border: 1px solid var(--border-color) !important; border-radius: var(--radius-md) !important; }
+[data-testid="stSpinner"] p { color: var(--isu-gold) !important; }
+
+/* ─── MARKDOWN HEADINGS ─────────────────────────────── */
+[data-testid="stChatMessage"] h1,
+[data-testid="stChatMessage"] h2,
+[data-testid="stChatMessage"] h3 {
+    color: var(--isu-gold) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding-bottom: 8px !important;
+}
+
+/* ─── SIDEBAR CHAT HISTORY ──────────────────────────── */
+.chat-history-item {
+    padding: 7px 20px;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    transition: var(--transition);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.chat-history-item:hover { color: var(--text-primary); }
+.sidebar-section-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 14px 20px 6px;
+}
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-sidebar);
+}
+.sidebar-user .avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a90d9, #7b68ee);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700; color: white;
+}
+.sidebar-user .name { font-size: 0.85rem; color: var(--text-primary) !important; font-weight: 500; flex: 1; }
+.sidebar-user .gear { color: var(--text-muted); font-size: 0.9rem; cursor: pointer; }
+
+/* ─── DECORATIVE STAR ───────────────────────────────── */
+.deco-star {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    font-size: 3rem;
+    color: var(--isu-gold);
+    opacity: 0.7;
+    filter: drop-shadow(0 0 12px rgba(241,190,72,0.4));
+    animation: starRotate 20s linear infinite;
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* ─── SCROLLBAR ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2A2E3A; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #3A3F4E; }
+
+::selection { background: rgba(200,16,46,0.3); color: white; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -293,7 +526,7 @@ except FileNotFoundError:
     st.stop()
 
 # ── Session state ─────────────────────────────────────────────────────────────
-for k, v in {"messages": [], "history": [], "pending_q": None}.items():
+for k, v in {"messages": [], "history": [], "pending_q": None, "chat_titles": []}.items():
     if k not in st.session_state:
         st.session_state[k] = v
 
@@ -308,42 +541,83 @@ def render_sources(sources: list[Chunk]):
             unsafe_allow_html=True,
         )
 
-# ── Top bar ───────────────────────────────────────────────────────────────────
-st.markdown(f"""
-<div class="topbar">
-  <div class="topbar-left">
-    <div class="topbar-brand">
-      <span class="uni">IOWA STATE</span>
-      <span class="name">UNIVERSITY</span>
+# ══════════════════════════════════════════════════════════════════════════════
+#  SIDEBAR
+# ══════════════════════════════════════════════════════════════════════════════
+with st.sidebar:
+    # Logo
+    if LOGO_PATH.exists():
+        st.image(str(LOGO_PATH), use_container_width=True)
+    else:
+        st.markdown(
+            '<div style="text-align:center;padding:20px 0;">'
+            '<span style="font-size:2rem;font-weight:900;color:white;">🌪️ CyGPT</span></div>',
+            unsafe_allow_html=True,
+        )
+
+    # Navigation — radio styled as clean sidebar links
+    page = st.radio(
+        "Navigation",
+        ["💬  Chat", "🎓  Degree Planner", "⚠️  Conflict Checker", "⚖️  Compare Majors", "🆕  New Chat"],
+        label_visibility="collapsed",
+    )
+
+    # Start New Chat button
+    if st.button("Start New Chat", use_container_width=True):
+        st.session_state.messages = []
+        st.session_state.history = []
+        st.rerun()
+
+    st.divider()
+
+    # Chat history section
+    st.markdown('<div class="sidebar-section-label">Your Chats</div>', unsafe_allow_html=True)
+
+    # Show chat history from session
+    user_msgs = [m["content"][:40] for m in st.session_state.messages if m["role"] == "user"]
+    if user_msgs:
+        for msg in user_msgs[-5:]:
+            st.markdown(f'<div class="chat-history-item">{msg}</div>', unsafe_allow_html=True)
+    else:
+        # Show placeholder chat entries like the reference
+        for title in ["Previous CS Requirement Chat", "Pre-med Pathway Questions", "Pre-med Pathway Questions"]:
+            st.markdown(f'<div class="chat-history-item">{title}</div>', unsafe_allow_html=True)
+
+    # User profile at bottom
+    st.markdown("""
+    <div class="sidebar-user">
+      <div class="avatar">V</div>
+      <span class="name">User</span>
+      <span class="gear">⚙️</span>
     </div>
-    <span class="topbar-divider">/</span>
-    <span class="topbar-app">🌪️ CyGPT</span>
-  </div>
-  <div class="topbar-right">{len(chunks):,} chunks indexed</div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-# ── Tabs ──────────────────────────────────────────────────────────────────────
-tab_chat, tab_planner, tab_conflict, tab_compare = st.tabs([
-    "💬  Chat",
-    "🎓  Degree Planner",
-    "⚠️  Conflict Checker",
-    "⚖️  Compare Majors",
-])
+# Handle "New Chat" navigation
+if page == "🆕  New Chat":
+    st.session_state.messages = []
+    st.session_state.history = []
+    page = "💬  Chat"
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  CHAT TAB
-# ═══════════════════════════════════════════════════════════════════════════════
-with tab_chat:
+# ══════════════════════════════════════════════════════════════════════════════
+#  CHAT PAGE
+# ══════════════════════════════════════════════════════════════════════════════
+if page == "💬  Chat":
+    # Indexed badge (top right)
+    st.markdown(
+        f'<div class="index-badge">{len(chunks):,} chunks indexed</div>',
+        unsafe_allow_html=True,
+    )
+
+    # Hero banner
     st.markdown(f"""
     <div class="hero">
       <h1>🌪️ CyGPT</h1>
-      <p>Iowa State University Academic Assistant &nbsp;·&nbsp;
+      <p>Iowa State University Academic Assistant &nbsp;-&nbsp;
       Searching <span class="gold">{len(chunks):,} indexed chunks</span>
       from the ISU catalog, PDFs, and course pages.</p>
     </div>""", unsafe_allow_html=True)
 
-    # ── Settings row ──────────────────────────────────────────────────────────
+    # Settings row
     with st.expander("⚙️  Settings & Tools", expanded=False):
         s1, s2, s3 = st.columns([2, 3, 2])
         with s1:
@@ -368,9 +642,7 @@ with tab_chat:
                 st.session_state.history  = []
                 st.rerun()
 
-    expand_queries = True  # always on by default
-
-    # ── Starter prompts ───────────────────────────────────────────────────────
+    # Starter prompts
     if not st.session_state.messages:
         st.markdown('<div class="sec-label">Try asking</div>', unsafe_allow_html=True)
         starters = [
@@ -389,7 +661,7 @@ with tab_chat:
                     st.rerun()
         st.write("")
 
-    # ── Chat history ──────────────────────────────────────────────────────────
+    # Chat history display
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
@@ -404,12 +676,13 @@ with tab_chat:
                     with st.expander(f"📚 {len(msg['sources'])} sources used"):
                         render_sources(msg["sources"])
 
-    # (chat input is rendered below, outside tabs, so it always stays visible)
+    # Decorative gold star (bottom right)
+    st.markdown('<div class="deco-star">✦</div>', unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════
 #  DEGREE PLANNER
-# ═══════════════════════════════════════════════════════════════════════════════
-with tab_planner:
+# ══════════════════════════════════════════════════════════════════════════════
+elif page == "🎓  Degree Planner":
     st.markdown("""
     <div class="hero">
       <h1>🎓 Degree Planner</h1>
@@ -445,10 +718,10 @@ with tab_planner:
     elif go:
         st.warning("Please enter a major name.")
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════
 #  CONFLICT CHECKER
-# ═══════════════════════════════════════════════════════════════════════════════
-with tab_conflict:
+# ══════════════════════════════════════════════════════════════════════════════
+elif page == "⚠️  Conflict Checker":
     st.markdown("""
     <div class="hero">
       <h1>⚠️ Conflict &amp; Prereq Checker</h1>
@@ -486,10 +759,10 @@ with tab_conflict:
                     with st.expander(f"📚 {len(hits)} sources used"):
                         render_sources(hits)
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════
 #  COMPARE MAJORS
-# ═══════════════════════════════════════════════════════════════════════════════
-with tab_compare:
+# ══════════════════════════════════════════════════════════════════════════════
+elif page == "⚖️  Compare Majors":
     st.markdown("""
     <div class="hero">
       <h1>⚖️ Major Comparison</h1>
@@ -529,40 +802,43 @@ with tab_compare:
                         render_sources(hits)
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  CHAT INPUT — outside tabs so it always stays visible
-# ═══════════════════════════════════════════════════════════════════════════════
-if st.session_state.get("active_tab", "chat") == "chat" or True:
-    question = st.session_state.pop("pending_q", None) or                st.chat_input("Ask about courses, majors, requirements, prerequisites…")
+# ══════════════════════════════════════════════════════════════════════════════
+#  CHAT INPUT — always visible at bottom for chat page
+# ══════════════════════════════════════════════════════════════════════════════
+if page == "💬  Chat":
+    question = st.session_state.pop("pending_q", None) or \
+               st.chat_input("Ask about courses, majors, requirements, prerequisites…")
 
     if question:
-        # Switch to chat tab context by storing and rerunning
+        # Save to chat titles for sidebar history
+        if question not in [t for t in st.session_state.get("chat_titles", [])]:
+            st.session_state.setdefault("chat_titles", []).append(question[:50])
+
         st.session_state.messages.append({"role": "user", "content": question})
-        with tab_chat:
-            with st.chat_message("user"):
-                st.markdown(question)
+        with st.chat_message("user"):
+            st.markdown(question)
 
-            with st.spinner("Searching the catalog…"):
-                hits = retrieve(question, faiss_index, bm25, chunks, expand=True)
+        with st.spinner("Searching the catalog…"):
+            hits = retrieve(question, faiss_index, bm25, chunks, expand=True)
 
-            full = ""
-            with st.chat_message("assistant"):
-                ph = st.empty()
-                for tok in stream_answer(question, hits, st.session_state.history):
-                    full += tok
-                    ph.markdown(full + "▌")
-                main_text, followups = parse_followups(full)
-                ph.markdown(main_text)
+        full = ""
+        with st.chat_message("assistant"):
+            ph = st.empty()
+            for tok in stream_answer(question, hits, st.session_state.history):
+                full += tok
+                ph.markdown(full + "▌")
+            main_text, followups = parse_followups(full)
+            ph.markdown(main_text)
 
-                if followups:
-                    fc = st.columns(len(followups))
-                    for col, fq in zip(fc, followups):
-                        if col.button(fq, key=f"fqn_{hash(fq)}", use_container_width=True):
-                            st.session_state.pending_q = fq
-                            st.rerun()
-                if hits:
-                    with st.expander(f"📚 {len(hits)} sources used"):
-                        render_sources(hits)
+            if followups:
+                fc = st.columns(len(followups))
+                for col, fq in zip(fc, followups):
+                    if col.button(fq, key=f"fqn_{hash(fq)}", use_container_width=True):
+                        st.session_state.pending_q = fq
+                        st.rerun()
+            if hits:
+                with st.expander(f"📚 {len(hits)} sources used"):
+                    render_sources(hits)
 
         st.session_state.history += [
             {"role": "user", "content": question},

@@ -19,6 +19,12 @@ import faiss
 import numpy as np
 from loguru import logger
 from openai import OpenAI
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 from rank_bm25 import BM25Okapi
 from tqdm import tqdm
 
