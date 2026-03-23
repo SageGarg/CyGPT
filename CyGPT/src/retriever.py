@@ -95,35 +95,49 @@ def _rerank_openai(question: str, candidates: List[Chunk]) -> List[Chunk]:
         return candidates
 
     snippets = "\n\n".join(
-        f"[{i}] {c.text[:400]}" for i, c in enumerate(candidates)
+        f"[{i}] {c.text[:350]}" for i, c in enumerate(candidates)
     )
     prompt = (
         f"Question: {question}\n\n"
-        f"Rate each passage on relevance to the question (1=irrelevant, 10=perfect match).\n"
-        f"Return ONLY a JSON array of numbers in passage order. Example: [7,3,9,2]\n\n"
+        f"Rate each passage 1-10 for relevance (1=irrelevant, 10=perfect).\n"
+        f"Respond with ONLY a JSON array of {len(candidates)} integers. "
+        f"Example for 4 passages: [7,3,9,2]\n\n"
         f"{snippets}"
     )
 
     try:
         resp = client.chat.completions.create(
             model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
+            messages=[
+                {"role": "system", "content": "You output only a JSON array of integers. No other text."},
+                {"role": "user", "content": prompt},
+            ],
             temperature=0,
-            max_tokens=200,
+            max_tokens=250,
         )
-        raw = resp.choices[0].message.content or "[]"
-        match = re.search(r"\[[\d,\s.]+\]", raw)
+        raw = (resp.choices[0].message.content or "").strip()
+        logger.debug(f"Reranker raw response: {raw[:120]}")
+
+        # Try to extract array even if GPT adds extra text
+        match = re.search(r"\[[\d\s,\.]+\]", raw)
         if match:
             scores = json.loads(match.group())
+            # Clamp all scores to 0-10 range
+            scores = [max(0.0, min(10.0, float(s))) for s in scores]
             if len(scores) == len(candidates):
                 for chunk, score in zip(candidates, scores):
-                    chunk.score = float(score)
-                return sorted(candidates, key=lambda c: c.score, reverse=True)
+                    chunk.score = score
+                reranked = sorted(candidates, key=lambda c: c.score, reverse=True)
+                logger.debug(f"Reranker scores: {[round(c.score,1) for c in reranked[:5]]}")
+                return reranked
+            else:
+                logger.debug(f"Score count mismatch: got {len(scores)}, expected {len(candidates)}")
     except Exception as e:
         logger.debug(f"OpenAI reranker failed (using RRF order): {e}")
 
+    # Fallback: assign scores 1.0-5.0 based on RRF rank (NOT len(candidates))
     for i, chunk in enumerate(candidates):
-        chunk.score = float(len(candidates) - i)
+        chunk.score = round(max(1.0, 5.0 - i * 0.2), 1)
     return candidates
 
 
