@@ -36,28 +36,30 @@ st.markdown("""
 
 /* ─── VARIABLES ─────────────────────────────────────── */
 :root {
-    --isu-red: #C8102E;
-    --isu-red-glow: rgba(200, 16, 46, 0.4);
-    --isu-gold: #F1BE48;
-    --isu-gold-glow: rgba(241, 190, 72, 0.3);
-    --isu-dark-red: #9B0020;
-    --bg-dark: #1a1a2e;
-    --bg-card: #1e1e33;
-    --bg-card-hover: #25253d;
-    --bg-elevated: #2a2a45;
-    --bg-sidebar: #111122;
-    --text-primary: #F0F2F5;
-    --text-secondary: #8B92A5;
-    --text-muted: #5A6178;
-    --border-color: rgba(255,255,255,0.08);
-    --border-glow: rgba(200, 16, 46, 0.3);
-    --radius-sm: 10px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-    --radius-xl: 24px;
-    --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+    --isu-red:       #C8102E;
+    --isu-red-glow:  rgba(200, 16, 46, 0.35);
+    --isu-dark-red:  #9B0020;
+    --isu-gold:      #FDE68A;   /* lighter butter yellow */
+    --isu-gold-mid:  #F1BE48;   /* standard ISU gold for accents */
+    --isu-gold-dark: #C99A1A;
+    --isu-gold-glow: rgba(253, 230, 138, 0.25);
+    --bg-dark:       #12120F;   /* very dark warm-tinted black (not blue) */
+    --bg-card:       #1C1C17;   /* warm dark card */
+    --bg-card-hover: #242419;
+    --bg-elevated:   #2A2A22;
+    --bg-sidebar:    #0E0E0B;   /* darkest warm black for sidebar */
+    --text-primary:  #F5F0E8;   /* warm white */
+    --text-secondary:#A89F8C;   /* warm gray */
+    --text-muted:    #6B6355;   /* warm muted */
+    --border-color:  rgba(255,240,200,0.07);  /* warm-tinted border */
+    --border-glow:   rgba(200, 16, 46, 0.3);
+    --radius-sm:     10px;
+    --radius-md:     14px;
+    --radius-lg:     20px;
+    --radius-xl:     24px;
+    --shadow-card:   0 4px 24px rgba(0,0,0,0.35);
     --shadow-glow-red: 0 0 30px rgba(200,16,46,0.15);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition:    all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html, body { margin:0; padding:0; }
@@ -98,12 +100,46 @@ header[data-testid="stHeader"],
 [data-testid="stSidebar"] > div:first-child {
     background: var(--bg-sidebar) !important;
     padding: 0 !important;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100vh !important;
+    overflow: hidden !important;
 }
 [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
     gap: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100% !important;
+    padding-bottom: 70px !important;
+}
+/* Logo — nuclear flush to top */
+[data-testid="stSidebar"],
+[data-testid="stSidebar"] > div,
+[data-testid="stSidebar"] > div > div,
+[data-testid="stSidebar"] section,
+[data-testid="stSidebar"] [data-testid="stVerticalBlock"],
+[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stSidebar"] .stElementContainer,
+[data-testid="stSidebar"] .block-container {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+[data-testid="stSidebar"] [data-testid="stImage"],
+[data-testid="stSidebar"] [data-testid="stImage"] > div {
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 0 !important;
+}
+[data-testid="stSidebar"] [data-testid="stImage"] img {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+/* Push user profile to bottom */
+[data-testid="stSidebar"] .sidebar-user-wrap {
+    margin-top: auto !important;
 }
 
 /* Sidebar collapse button */
@@ -155,7 +191,7 @@ header[data-testid="stHeader"],
 
 /* ─── SIDEBAR BUTTONS ──────────────────────────────── */
 [data-testid="stSidebar"] .stButton button {
-    background: linear-gradient(135deg, #2a3a5c 0%, #1e2d4d 100%) !important;
+    background: linear-gradient(135deg, #2A2318 0%, #1E1A10 100%) !important;
     color: white !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
     border-radius: var(--radius-sm) !important;
@@ -167,7 +203,7 @@ header[data-testid="stHeader"],
     margin: 4px 0 !important;
 }
 [data-testid="stSidebar"] .stButton button:hover {
-    background: linear-gradient(135deg, #3a4a6c 0%, #2e3d5d 100%) !important;
+    background: linear-gradient(135deg, #3A3020 0%, #2E2614 100%) !important;
     border-color: rgba(255,255,255,0.2) !important;
 }
 
@@ -309,7 +345,7 @@ header[data-testid="stHeader"],
 }
 [data-testid="stChatMessage"] strong { color: var(--isu-gold) !important; }
 [data-testid="stChatMessage"] code { 
-    background: rgba(241,190,72,0.1) !important; 
+    background: rgba(253,230,138,0.12) !important; 
     color: var(--isu-gold) !important; 
     padding: 2px 6px !important; 
     border-radius: 4px !important; 
@@ -330,8 +366,8 @@ header[data-testid="stHeader"],
 [data-testid="stBottom"] [data-testid="stVerticalBlock"],
 [data-testid="stBottom"] [data-testid="stVerticalBlockBorderWrapper"],
 [data-testid="stBottom"] .stElementContainer {
-    background: #111122 !important;
-    background-color: #111122 !important;
+    background: #0E0E0B !important;
+    background-color: #0E0E0B !important;
 }
 [data-testid="stBottom"] {
     backdrop-filter: blur(20px) !important;
@@ -340,7 +376,7 @@ header[data-testid="stHeader"],
     padding: 16px 40px 24px !important;
 }
 [data-testid="stChatInputContainer"] {
-    background: #25253d !important;
+    background: #1E1E16 !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
     border-radius: var(--radius-lg) !important;
     box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
@@ -414,10 +450,10 @@ header[data-testid="stHeader"],
 .src small { color: var(--text-secondary) !important; display: block; line-height: 1.5; }
 .badge {
     display: inline-flex; align-items: center;
-    background: rgba(241, 190, 72, 0.15); color: var(--isu-gold);
+    background: rgba(253, 230, 138, 0.15); color: var(--isu-gold);
     border-radius: 20px; padding: 3px 12px; font-size: 0.72rem;
     font-weight: 700; margin-left: 10px; vertical-align: middle;
-    border: 1px solid rgba(241,190,72,0.2);
+    border: 1px solid rgba(253,230,138,0.25);
 }
 
 /* ─── EXPANDERS ─────────────────────────────────────── */
@@ -476,16 +512,23 @@ hr { border: none !important; border-top: 1px solid var(--border-color) !importa
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 14px 20px;
-    border-top: 1px solid var(--border-color);
+    padding: 14px 20px 18px;
+    border-top: 1px solid rgba(255,240,200,0.1);
     background: var(--bg-sidebar);
+    position: fixed;
+    bottom: 0;
+    width: 220px;
+    box-sizing: border-box;
+    z-index: 999;
 }
 .sidebar-user .avatar {
-    width: 30px; height: 30px;
+    width: 32px; height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #4a90d9, #7b68ee);
+    background: linear-gradient(135deg, #FDE68A, #C99A1A);
     display: flex; align-items: center; justify-content: center;
-    font-size: 0.7rem; font-weight: 700; color: white;
+    font-size: 0.75rem; font-weight: 800; color: #4A3800;
+    flex-shrink: 0;
+    border: 2px solid rgba(253,230,138,0.3);
 }
 .sidebar-user .name { font-size: 0.85rem; color: var(--text-primary) !important; font-weight: 500; flex: 1; }
 .sidebar-user .gear { color: var(--text-muted); font-size: 0.9rem; cursor: pointer; }
@@ -507,8 +550,8 @@ hr { border: none !important; border-top: 1px solid var(--border-color) !importa
 /* ─── SCROLLBAR ─────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #2A2E3A; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #3A3F4E; }
+::-webkit-scrollbar-thumb { background: #2A2820; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #3A3828; }
 
 ::selection { background: rgba(200,16,46,0.3); color: white; }
 </style>
@@ -545,58 +588,59 @@ def render_sources(sources: list[Chunk]):
 #  SIDEBAR
 # ══════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
-    # Logo
+    # ── Logo flush to top ─────────────────────────────────────────────────────
+    st.markdown('<style>[data-testid="stSidebar"] section:first-child{padding-top:0!important}</style>', unsafe_allow_html=True)
     if LOGO_PATH.exists():
         st.image(str(LOGO_PATH), use_container_width=True)
     else:
         st.markdown(
-            '<div style="text-align:center;padding:20px 0;">'
-            '<span style="font-size:2rem;font-weight:900;color:white;">🌪️ CyGPT</span></div>',
+            '<div style="text-align:center;padding:20px 16px 8px;background:#C8102E;">'
+            '<span style="font-size:1.8rem;font-weight:900;color:#FDE68A;">🌪️</span>'
+            '<br><span style="font-size:1rem;font-weight:900;color:white;letter-spacing:1px;">CyGPT</span>'
+            '</div>',
             unsafe_allow_html=True,
         )
 
-    # Navigation — radio styled as clean sidebar links
+    st.markdown('<div style="height:1px;background:rgba(255,240,200,0.08);margin:0 0 4px;"></div>', unsafe_allow_html=True)
+
+    # ── Navigation ────────────────────────────────────────────────────────────
     page = st.radio(
         "Navigation",
-        ["💬  Chat", "🎓  Degree Planner", "⚠️  Conflict Checker", "⚖️  Compare Majors", "🆕  New Chat"],
+        ["💬  Chat", "🎓  Degree Planner", "⚠️  Conflict Checker", "⚖️  Compare Majors"],
         label_visibility="collapsed",
     )
 
-    # Start New Chat button
-    if st.button("Start New Chat", use_container_width=True):
+    st.markdown('<div style="height:1px;background:rgba(255,240,200,0.08);margin:8px 0;"></div>', unsafe_allow_html=True)
+
+    # ── New Chat button ───────────────────────────────────────────────────────
+    if st.button("＋  New Chat", use_container_width=True):
         st.session_state.messages = []
-        st.session_state.history = []
+        st.session_state.history  = []
         st.rerun()
 
-    st.divider()
+    # ── Chat history ──────────────────────────────────────────────────────────
+    st.markdown('<div class="sidebar-section-label">Recent chats</div>', unsafe_allow_html=True)
 
-    # Chat history section
-    st.markdown('<div class="sidebar-section-label">Your Chats</div>', unsafe_allow_html=True)
-
-    # Show chat history from session
-    user_msgs = [m["content"][:40] for m in st.session_state.messages if m["role"] == "user"]
+    user_msgs = [m["content"] for m in st.session_state.messages if m["role"] == "user"]
     if user_msgs:
-        for msg in user_msgs[-5:]:
-            st.markdown(f'<div class="chat-history-item">{msg}</div>', unsafe_allow_html=True)
+        for msg in reversed(user_msgs[-5:]):
+            truncated = msg[:36] + "…" if len(msg) > 36 else msg
+            st.markdown(f'<div class="chat-history-item">💬 {truncated}</div>', unsafe_allow_html=True)
     else:
-        # Show placeholder chat entries like the reference
-        for title in ["Previous CS Requirement Chat", "Pre-med Pathway Questions", "Pre-med Pathway Questions"]:
-            st.markdown(f'<div class="chat-history-item">{title}</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="chat-history-item" style="color:#4A4038;font-style:italic;">No chats yet</div>',
+            unsafe_allow_html=True,
+        )
 
-    # User profile at bottom
+    # ── User profile — pinned at bottom ──────────────────────────────────────
     st.markdown("""
     <div class="sidebar-user">
-      <div class="avatar">V</div>
-      <span class="name">User</span>
-      <span class="gear">⚙️</span>
+      <span class="name">👤 User</span>
     </div>
     """, unsafe_allow_html=True)
 
 # Handle "New Chat" navigation
-if page == "🆕  New Chat":
-    st.session_state.messages = []
-    st.session_state.history = []
-    page = "💬  Chat"
+# (New Chat handled via button in sidebar)
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  CHAT PAGE
