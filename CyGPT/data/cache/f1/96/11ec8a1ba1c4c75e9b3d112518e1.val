@@ -1,0 +1,592 @@
+Courses
+Courses primarily for undergraduates:
+Credits: Required. Contact Hours: Discussion 1, Lecture 1.
+Required orientation class for all incoming students in the Computer Science major. Topics include academic planning and policies, campus resources, and supports. Opportunity to connect with other computer science peers, faculty, alumni, and employers. Offered on a satisfactory-fail basis only. (Typically Offered: Fall, Spring)
+Credits: 2. Contact Hours: Lecture 1.5, Discussion 0.5.
+Offered first 8 weeks and last 8 weeks. Introduction to problem-solving; Python shell, print statement, arithmetic, and types; variables and assignment statements; using functions; reading input, and string concatenation; conditional statements; nested; conditionals and the elif statement; writing our own functions; value-returning functions; boolean operators; testing and incremental development; debugging; binary arithmetic and data encoding; strings, brackets, and lists; string operations; for-loops and number ranges; examples using for-loops; while-loops; reading text file; writing text file; file paths and command shells and other essential topics. Emphasis on applying Python to analyze real-world problems and develop functional solutions.No prior computer experience necessary. (Typically Offered: Fall, Spring)
+Credits: 2. Contact Hours: Lecture 2.
+Prereq: COMS 1040
+8-week course in programming using MATLAB.
+Credits: 3. Contact Hours: Lecture 3.
+Introduction to web programming basics. Fundamentals of developing web pages using a comprehensive web development life cycle. Learn to design and code practical real-world homepage programs and earn adequate experience with current web design techniques such as HTML5 and cascading style sheets. Students also learn additional programming languages including JavaScript, jQuery, PHP, SQL, and MySQL. Strategies for accessibility, usability and search engine optimization. No prior computer programming experience necessary. (Typically Offered: Fall, Spring)
+Credits: 3. Contact Hours: Lecture 2, Laboratory 2.
+Using Microsoft Excel spreadsheets and Microsoft Access databases to input, store, process, manipulate, query, and analyze data for business and industrial applications. Graduation Restriction: Credit in COMS 1130 may not be applied toward graduation in the SE and CPRE majors. (Typically Offered: Fall, Spring, Summer)
+Credits: 3. Contact Hours: Lecture 2, Laboratory 2.
+Prereq: (Placement in MATH 1430) or (Credit or enrollment in MATH 1400 or higher)
+Introduction to computer programming with an emphasis on problem-solving. Topics include: program structures, expressions, variables, decision and logic, iteration, collections, input, and output. Program construction and testing. Programming assignments including games and applications. No prior programming experience necessary.
+(Typically Offered: Fall, Spring)
+Credits: 1-2. Contact Hours: Lecture 2.
+Repeatable, maximum of 2 credits.
+Explore research opportunities for undergraduate students in Computer Science; understanding the nature of research and development process; reviewing the literature; development of writing, presentation, and data reporting skills; rotation under different research labs; group work. (Typically Offered: Fall, Spring)
+Credits: Required. Contact Hours: Lecture 1.5.
+Computer science as a profession. Introduction to career fields open to computer science majors. Relationship of coursework to careers. Presentations by computer science professionals. Offered on a satisfactory-fail basis only. (Typically Offered: Fall, Spring)
+(Cross-listed with GAME 2040).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 1270
+Coding in the environment of selected game engine(s). Focus on methods, concepts, and problems of developing games using popular game engines. Includes programming, scripting, troubleshooting, and rapid prototyping.
+Credits: 3. Contact Hours: Lecture 3, Discussion 1.
+Prereq: MATH 1500 or credit or enrollment in MATH 1400 or higher
+An introduction to computer programming using an object-oriented programming language. Emphasis on the basics of good programming techniques and style. Extensive practice in designing, implementing, and debugging small programs. Use of variable, if-statement, looping, method, and class. Interactive and file I/O. This course is not designed for computer science, software engineering, and computer engineering majors. Graduation Restriction: Credit may not be applied toward graduation for both COMS 2070 and COMS 2270.
+(Typically Offered: Fall, Spring, Summer)
+Credits: 4. Contact Hours: Lecture 3, Laboratory 2.
+Prereq: Credit or concurrent enrollment in MATH 1430 or higher; (COMS 1270 or CPRE 1850 or SE 1850 or COMS 2070 or MIS 2070 or EE 2850 or MTEOR 2270 or ME 1600)
+Computer programming using objects as the mechanism for modularity, abstraction, and code reuse. Java programming language. Instance variables, methods, and encapsulation. Review of control structures for conditionals and iteration. Developing algorithms on strings, arrays, and lists. Recursion, searching, and sorting. Text parsing and file I/O. Interfaces, inheritance, polymorphism, and abstract classes. Exception handling. Tools for unit testing and debugging. Emphasis on a disciplined approach to specification, code development, and testing. Course intended for majors in computer science and related fields. Graduation Restriction: Credit may not be applied toward graduation for both COMS 2070 and 2270.
+(Typically Offered: Fall, Spring, Summer)
+Credits: 3. Contact Hours: Lecture 3, Discussion 1.
+Prereq: Minimum of C- in COMS 2270 and MATH 1650
+An object-oriented approach to data structures and algorithms. Object-oriented analysis, design, and programming, with emphasis on data abstraction, inheritance and subtype polymorphism, and generics, using Java as the implementation language. Abstract data type specification and correctness. Collections including lists, stacks, queues, trees, heaps, maps, hash tables, and graphs. Big-O notation and algorithm analysis. Searching and sorting. Graph traversal and search algorithms. Emphasis on object-oriented design, writing and documenting medium-sized programs. This course is designed for majors.
+(Typically Offered: Fall, Spring, Summer)
+(Cross-listed with MATH 2300).
+Credits: 3. Contact Hours: Lecture 3, Discussion 1.
+Prereq: (Minimum of C- in COMS 2270 and MATH 1650) and ENGL 1500
+Concepts in discrete mathematics as applied to computer science. Logic, set theory, functions, relations, cardinality of sets, combinatorics and graph theory. Proof techniques, induction and recursion. State machines and invariants.
+(Typically Offered: Fall, Spring, Summer)
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: CPRE 1850 or SE 1850 or COMS 1270 or COMS 2070 or COMS 2270
+Introduction to installation, utilization, and administration of Linux systems. Topics include open-source software, package installation and management, shell programming and command-line utilities, process and service management, account management, network configuration, file sharing, interoperation with other computers and operating systems, automation, and system security.
+(Typically Offered: Fall)
+Credits: 1-30. Repeatable, maximum of 6 credits.
+Prereq: Instructor Permission for Course
+Graduation Restriction: No more than 6 credits of COMS 2900 or COMS 2900H may be counted toward graduation.
+(Typically Offered: Fall, Spring, Summer)
+Credits: 1-30. Repeatable, maximum of 6 credits.
+Prereq: Permission of Instructor; Membership in the University Honors Program
+Graduation Restriction: No more than 6 credits of COMS 2900 or COMS 2900H may be counted toward graduation.
+(Typically Offered: Fall, Spring)
+Credits: 1. Contact Hours: Lecture 1.
+Repeatable, maximum of 3 times.
+Prereq: COMS 2070 or COMS 2270
+Basics of problem solving using programming techniques. Development and implementation of simple to advanced data structures and algorithms, evaluation of problem difficulty, design and implementation of solutions, debugging, and working under time pressure.
+(Typically Offered: Fall, Spring)
+(Cross-listed with SE 3090).
+Credits: 3. Contact Hours: Lecture 3, Discussion 1.
+Prereq: Minimum of C- in (COMS 2280; MATH 1650)
+Practical introduction to methods for managing software development. Software engineering concepts, practices and tools. Requirements analysis, structured and object-oriented design, coding, testing, and maintenance. Software process models, software tools and environments. Programming projects that provide exposure to information management techniques, client/server model, networking and communication. Proficiency in the Java programming language required.
+(Typically Offered: Fall, Spring)
+Credits: 3. Contact Hours: Lecture 3, Discussion 1.
+Prereq: (COMS 2300 or CPRE 3100) and (Minimum of C- in COMS 2280, ENGL 1500, and MATH 1660)
+Basic techniques for design and analysis of algorithms. Sorting, searching, graph algorithms, string matching, algorithms for secure computing such as RSA, and NP-completeness. Design techniques such as dynamic programming, divide and conquer, greedy method, and approximation. Asymptotic, worst-case, average-case and amortized analyses. Topics from advanced data structures such as balanced trees and hashing. Programming projects.
+(Typically Offered: Fall, Spring, Summer)
+(Cross-listed with SE 3190).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 2280
+Overview of user interface design. Evaluation and testing of user interfaces. Review of principles of object orientation, object oriented design and analysis using UML in the context of user interface design. Design of windows, menus and commands. Developing Web and Windows-based user-interfaces. Event-driven programming. Introduction to Frameworks and APIs for the construction of user interfaces.
+(Typically Offered: Fall, Spring)
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: (Minimum of C- in COMS 2280 and MATH 1650) and (COMS 2300 or CPRE 2810) and ENGL 2500
+Introduction to computer architecture and organization. Emphasis on evaluation of performance, instruction set architecture, datapath and control, memory-hierarchy design, and pipelining. Assembly language programming.
+(Typically Offered: Fall, Spring)
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Minimum of C- in COMS 2280 and MATH 1650
+Object-oriented programming experience using a language suitable for exploring advanced topics in programming. Topics include memory management, parameter passing, inheritance, compiling, debugging, and maintaining programs. Significant programming projects.
+(Typically Offered: Fall, Spring)
+(Cross-listed with LING 3310).
+Credits: 3. Contact Hours: Lecture 3, Discussion 1.
+Prereq: (COMS 2300 or CPRE 3100) and (Minimum of C- in COMS 2280, ENGL 2500, and MATH 1660)
+Models of computation: finite state automata, pushdown automata and Turing machines. Study of grammars and their relation to automata. Limits of digital computation, unsolvability and Church-Turing thesis. Relations between classes of languages.
+(Typically Offered: Fall, Spring)
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: (COMS 3270 or CPRE 2880) and (Credit or Enrollment in MATH 2070, MATH 2650, or MATH 3170)
+Programming interactive computer graphics systems using standard low-level libraries (such as OpenGL or DirectX) with an emphasis on 3D rendering. The graphics pipeline and programmable shaders. Coordinate systems and transformations in two and three dimensions. Homogeneous coordinates, viewing transformations and perspective. Euler angles and quaternions. Visible surface algorithms. Lighting models and shading. Texture mapping, bump mapping, reflection, elementary ray tracing. Offscreen buffers, render-to-texture and related techniques.
+(Typically Offered: Fall)
+(Cross-listed with SE 3420).
+Credits: 3. Contact Hours: Lecture 3, Discussion 1.
+Prereq: (Minimum of C- in COMS 2280 and MATH 1650) and (COMS 2300 or CPRE 3100)
+Study of concepts in programming languages, especially functional programming concepts. Overview of major programming paradigms, their relationship, and tradeoffs among paradigms enabling sound choices of programming language for application-specific development. Programming projects.
+(Typically Offered: Fall, Spring)
+(Cross-listed with MATH 3500).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 2300 or CPRE 3100 or MATH 2010
+Divisibility, integer representations, primes and divisors, linear diophantine equations, congruences, and multiplicative functions. Applications to cryptography. Additional topics, chosen at the discretion of the instructor.
+(Typically Offered: Spring)
+Credits: 3. Contact Hours: Lecture 3, Discussion 1.
+Prereq: (COMS 3210 or CPRE 3810) and (COMS 3270 or CPRE 2880) and ENGL 2500
+Survey of operating systems; process management including scheduling and multithreading; memory management including virtual memory and paging; concurrency including mutual exclusion, synchronization, and deadlocks; persistent storage and file systems; principles and practices of secure computing including threats and access control; networking and distributed systems; virtualization. Programming projects.
+(Typically Offered: Fall, Spring)
+(Cross-listed with SE 3620).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: ENGL 2500 and (Minimum of C- in COMS 2280 and MATH 1650)
+Object-oriented requirements analysis and systems design. Analysis and design methodologies including use case and Unified Modeling Language (UML). Design principles, heuristics, and patterns. Architectural patterns and alternative programming paradigms. Group design and programming project.
+(Typically Offered: Fall, Spring)
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: ENGL 2500 and (Minimum of C- in COMS 2280 and MATH 1650)
+Data models and database design using entity relationship model. Database implementation with relational and graph database management systems (DBMS) and query languages. DBMS internals including basic concepts of database storage, indexing, query optimization, and concurrent control. Database application development. Programming Projects.
+(Typically Offered: Fall, Spring)
+Credits: 2. Contact Hours: Lecture 2.
+Prereq: (COMS 2270 or MIS 3070) or Permission of Instructor
+Introduction to foundation artificial intelligence (AI) models such as Large Language Models (LLMs), Large Vision Language Models, and Code LLMs. Prompt engineering techniques and applications. Introduction to PyTorch programming related to LLM Application Programming Interfaces (APIs). Retrieval Augmented Generation. Principles and techniques related to the responsible development of LLM applications and AI-assisted software. .
+(Typically Offered: Fall)
+Credits: 2. Contact Hours: Lecture 2.
+Prereq: COMS 3710X and MATH 1650
+Internals of AI foundation models. Pre-training and post-training methods. Embedding, Transformer architecture, and Fine-tuning. Systems that run AI foundation models: storage, GPUs, and distributed training. Model explanation techniques that reveal what a given model uses to arrive at its output prediction.
+Credits: Required. Repeatable.
+Prereq: Department Permission for Course
+Required of all cooperative education students. Students must register for this course prior to commencing each work period.
+(Typically Offered: Fall, Spring, Summer)
+(Cross-listed with BIOL 4010/ BCBIO 4010/ GEN 4010).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: BCBIO 3220; (COMS 1270 or COMS 2270); (MATH 1600 or MATH 1650); (MATH 1660 or STAT 3201); (STAT 1010 or STAT 1040 or STAT 3030) or Permission of Instructor
+Application of computer science and statistics to molecular biology with a significant problem-solving component, including hands-on programming using Python to solve a variety of biological problems. String algorithms, sequence alignments, homology search, pattern discovery, genotyping, genome assembly, genome annotation, comparative genomics, protein structure. Offered odd-numbered years.
+(Typically Offered: Fall)
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3090, COMS 3110, COMS 3210, SPCM 2120, ENGL 2500, and Senior Classification
+Students work as individuals and teams to complete the planning, design, and implementation of a significant project in the topic area. Oral and written reports. Recommended final semester Senior year.Graduation Restriction: No more than 6 credits of 4020A, 4020B, and 4020C may be used toward graduation.
+(Typically Offered: Fall, Spring)
+(Cross-listed with BIOL 4060/ BCBIO 4060/ GEN 4060).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: BIOL 2120
+Introduction to cutting edge OMICS analyses including transcriptome, proteome, metabolome, DNA-protein interactome, protein-protein interactome and methylome. Genomic analysis including transcriptome analysis, cancer genomics, comparative genomics, and regulatory network analysis.
+(Typically Offered: Fall)
+(Dual-listed with AERE 5070/ COMS 5070).
+(Cross-listed with AERE 4070).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: AERE 3610 for AERE majors. COMS 3110 for COMS majors. AERE 3610 or COMS 3110, or an equivalent course, plus instructor permission for other majors.
+Introduction to the fundamentals of formal methods, a set of mathematically rigorous techniques for the formal specification, validation, and verification of safety- and security-critical systems. Tools, techniques, and applications of formal methods with an emphasis on real-world use-cases such as enabling autonomous operation. Build experience in writing mathematically analyzable specifications from English operational concepts for real cyberphysical systems, such as aircraft and spacecraft. Review capabilities and limitations of formal methods in the design, verification, and system health management of today's complex systems.
+(Typically Offered: Spring)
+(Dual-listed with COMS 5090).
+(Cross-listed with SE 4090).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3090
+The requirements engineering process including elicitation, requirements analysis fundamentals, requirements specification and communication, and requirements evaluation. Modeling of functional requirements and nonfunctional requirements, traceability, and requirements change management. Case studies and software projects.
+(Dual-listed with COMS 5120).
+(Cross-listed with CPRE 4120/ SE 4120).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110, ENGL 2500 and (STAT 3005, STAT 3030, or STAT 3441)
+A study of formal techniques for model-based specification and verification of software systems. Topics include logics, formalisms, graph theory, numerical computations, algorithmsand tools for automatic analysis of systems. Graduate credit requires in--depth study of concepts.
+(Dual-listed with COMS 5130/ CPRE 5130).
+(Cross-listed with SE 4130).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: (COMS 3270 or CPRE 2880) and COMS 3420
+Algorithms, AI techniques and tools for automatically reasoning about code and program executions. Theory and foundations related to control flow analysis, dataflow analysis, abstract interpretation, and symbolic execution. Applications of program analysis to bug detection, test input generation, debugging, program repair, specification inference and trustworthy AI engineering. Concepts, algorithms, tools, benchmarks, methodologies for solving problems using program analysis and for preparing research in program analysis.
+(Dual-listed with COMS 5150).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3090 or COMS 3110
+An introduction to the hazard analysis, safety requirements, design, and verification of software for safety-critical and high-dependability systems. Safety analysis techniques, fault identification and recovery, and certification issues. Emphasizes a case-based and systematic approach to software's role in safe systems.
+(Cross-listed with SE 4170).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3090; (COMS 2300 or CPRE 3100); ENGL 2500
+An introduction to software testing principles and techniques. Test models, test design, test adequacy criteria; regression, integration, and system testing; and software testing tools.
+(Dual-listed with COMS 5180).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110
+Introduction to data structures, algorithms, and analysis techniques for computational problems that involve geometry. Convex hulls, line segment intersection, polygon triangulation, 2D linear programming, range queries, point location, arrangements and duality, Voronoi diagrams, Delaunay triangulations, geometric data structures, robot motion planning, visibility graphs. Other selected topics. Programming assignments. Scholarly report required for graduate credit.
+(Dual-listed with COMS 5190).
+Credits: 3. Contact Hours: Lecture 3.
+Introduction to healthcare software used for health diagnosis or treatment. Focus on software as part of a medical device, the emerging use of software as a medical device, and on mobile healthcare applications. Topics include: discovering and verifying usability, reliability, and safety requirements; design and verification of trustworthy healthcare software; assurance cases for healthcare software in a regulatory environment. (Typically Offered: Spring)
+(Cross-listed with MATH 4210).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 2300 or CPRE 3100 or MATH 2070 or MATH 3010 or MATH 3170
+Propositional and predicate logic. Topics selected from Horn logic, equational logic, resolution and unification, foundations of logic programming, reasoning about programs, program specification and verification, model checking and binary decision diagrams, temporal logic and modal logic.
+(Cross-listed with MATH 4240/ CPRE 4240).
+Credits: 3.
+Prereq: (MATH 2650 and MATH 2070 or MATH 3170) or Permission of Instructor or Graduate Standing
+Unix, serial programming of scientific applications, OpenMP for shared-memory parallelization. No Unix, Fortran or C experience required.
+(Typically Offered: Fall)
+(Cross-listed with CPRE 4250).
+Credits: 3. Contact Hours: Lecture 2, Laboratory 2.
+Prereq: (COMS 3110, ENGL 2500, and SPCM 2120) or Graduate Classification
+Introduction to high performance computing platforms including parallel computers and workstation clusters. Discussion of parallel architectures, performance, programming models, and software development issues. Sample applications from science and engineering. Practical issues in high performance computing will be emphasized via a number of programming projects using a variety of programming models and case studies. Oral and written reports.
+(Dual-listed with CPRE 5260/ COMS 5260).
+(Cross-listed with CPRE 4260).
+Credits: 4. Contact Hours: Lecture 3, Laboratory 2.
+Prereq: CPRE 3080 or COMS 3210 and CPRE 3150 or COMS 3110
+Models of parallel computation, performance measures, basic parallel constructs and communication primitives, parallel programming using MPI, parallel algorithms for selected problems including sorting, matrix, tree and graph problems, fast Fourier transforms.
+(Typically Offered: Fall)
+(Dual-listed with COMS 5330).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Minimum of C- in COMS 3310 or Permission of Instructor
+Programming, modeling, and analysis of natural and engineered systems at the nanoscale. Topics include chemical reaction networks, strand displacement systems, models of self-assembly, biomolecular origami, and molecular robotics. Emphasis on mathematical methods of describing, simulating, programming, and assessing the computational power of such systems. Graduate credit requires a written or oral report on current research.
+(Dual-listed with COMS 5340).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: (COMS 3310 or PHYS 4220 or PHYS 5220); (MATH 2070 or MATH 3170)
+An exploration of quantum information and computation from a theoretical computer science perspective. Topics include quantum circuits, axioms of quantum mechanics, quantum entanglement, quantum teleportation, nonlocal games, quantum entropies, quantum information theory, quantum computational complexity, interactive proof systems, and quantum supremacy.
+(Typically Offered: Fall)
+(Dual-listed with COMS 5350).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110 or Permission of Instructor
+Algorithmic challenges involved in solving computational problems on massive data sets. Probabilistic data structures, Curse of Dimensionality and dimensionality reduction, locality sensitive hashing, similarity measures, matrix decompositions. Optimization problems in massive data analysis. Computational problems that arise in the context of web search, social network analysis, online advertising etc. Practical aspects include implementation and performance evaluation of the algorithms on real world data sets. Graduate credit requires a written report on current research.
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3360
+Video game programming using current game engine interfaces with real hardware. Particular attention is paid to the development environment, tool chains, 2D graphics, 3D graphics, controllers, memory management, and audio systems.
+(Dual-listed with COMS 5400).
+(Cross-listed with SE 4400).
+Credits: 3. Contact Hours: Laboratory 1, Lecture 3.
+Prereq: (COMS 3310 or COMS 3420) and COMS 3090 and ENGL 2500
+Theory of compiling and implementation issues of programming languages. Programming projects leading to the construction of a compiler. Projects with different difficulty levels will be given for 4400 and 5400. Topics include: lexical, syntactic and semantic analyses, syntax-directed translation, code generation, runtime environment and library support.
+(Dual-listed with COMS 5410).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3420 or COMS 4400
+Survey of the goals and problems of language design. Formal and informal studies of a wide variety of programming language features including type systems. Creative use of functional and declarative programming paradigms.
+(Dual-listed with COMS 5530).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COM S 3110; (STAT 3050 or STAT 3300 or STAT 3410 or STAT 3470)
+Latest online threats on identity theft, fundamentals of privacy preserving algorithms, techniques, and mechanisms to minimize disclosure of sensitive information while maintaining availability. Theory and fundamentals underpinning measures to evaluate the privacy and availability of data; implementation and deployment of privacy-preserving data operations including pre- and post-randomization techniques, homomorphisms, and secure function evaluation protocols.
+(Typically Offered: Spring)
+(Dual-listed with COMS 5540/ CPRE 5540).
+(Cross-listed with CPRE 4540).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110 and (COMS 3080 or CPRE 3520)
+Theoretical and practical issues of design and implementation of distributed systems. The client server paradigm, inter-process communications, synchronization and concurrency control, naming, consistency and replication, fault tolerance, and distributed file systems. Graduate credit requires additional in-depth study of concepts. Programming projects and written reports.
+(Typically Offered: Spring)
+(Dual-listed with COMS 5550).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110, ENGL 2500 and (STAT 3005, STAT 3030, or STAT 3441)
+Introduction to discrete-event simulation with a focus on computer science applications, including performance evaluation of networks and distributed systems. Overview of algorithms and data structures necessary to implement simulation software. Discrete and continuous stochastic models, random number generation, elementary statistics, simulation of queuing and inventory systems, Monte Carlo simulation, point and interval parameter estimation. Graduate credit requires additional in-depth study of concepts.
+(Dual-listed with COMS 5580X).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110 and (COMS 4720 or COMS 4740 or STAT 3030 or STAT 3050 or STAT 3470)
+Foundations of generative AI with emphasis on cybersecurity principles, threats, and defenses. Core model families such as VAEs, GANs, diffusion, flows, energy-based models, and LLMs and how they are trained and deployed in adversarial settings. Key topics include representation learning, transformers, prompting and agentic AI, offensive uses (e.g., exploit generation, prompt injection, poisoning, backdoors, exfiltration, privacy leakage), and defensive methods such as interpretability, drift/robustness evaluation, provenance/authentication, and secure hardening.
+(Typically Offered: Fall)
+(Dual-listed with COMS 5590/ CPRE 5590).
+(Cross-listed with CPRE 4590).
+Credits: 3. Contact Hours: Lecture 3.
+Introduction to cloud computing concepts and systems. Security and privacy threats in cloud computing. Practical techniques for cloud computing security. Theoretical and practical solutions for secure outsourcing of data and computation. Oral presentations and research projects. (Typically Offered: Fall)
+(Dual-listed with COMS 5630X).
+Credits: 3. Contact Hours: Lecture 3.
+Introduction to types of healthcare data, complexities of privacy, confidentiality and security within healthcare. Key laws and regulations specific to healthcare such as HIPAA and the European Data Protection Directive 95/46/EC. Types of data sources and data elements utilized in healthcare. Algorithms for privacy, security and confidentiality of electronic health records. Role-based access control in healthcare. (Typically Offered: Spring)
+(Dual-listed with COMS 5640X).
+Credits: 3. Contact Hours: Lecture 3.
+Introduction to use of AI techniques in healthcare. Topics may include: AI techniques for medical diagnosis, prognosis and treatment, AI techniques for diagnosis of lung and brain disorders from 2D medical imaging data, classification models of 2D medical images, AI techniques for 3D medical imaging data, use of multi-modal imaging data in disease detection and diagnosis. Programming projects.
+(Dual-listed with COMS 5720).
+Credits: 3. Contact Hours: Lecture 3, Discussion 1.
+Prereq: COMS 3110; (STAT 3005 or STAT 3030 or STAT 3441 or STAT 3447); MATH 1650; ENGL 2500
+Basic principles, techniques, and applications of artificial intelligence. Specification, design, implementation, and applications of intelligent agents. Computational models of intelligent behavior, including problem solving, knowledge representation and reasoning, planning, decision making, learning, perception, and communication. Artificial intelligence programming. Term project and written report for graduate credit.
+(Dual-listed with COMS 5740).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110; (STAT 3005 or STAT 3030 or STAT 3441 or STAT 3447); MATH 1650; ENGL 2500
+Introduction to concepts, tools and techniques of machine learning for applications. Selected machine learning algorithms in practical data mining tasks such as classification, regression, and clustering, e.g., association rules, decision trees, linear models, Bayesian learning, support vector machines, artificial neural networks, instance-based learning, probabilistic graphical models, ensemble learning, and c lustering algorithms. Selected applications in data mining and pattern recognition.
+(Dual-listed with COMS 5760).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110; ENGL 2500
+Recent techniques for developing algorithms that automatically generate continuous motions while satisfying geometric constraints. Applications in areas such as robotics and autonomous systems. Discrete planning, kinematics, configuration space, collision detection, sampling-based motion planning, nonholonomic systems and differential constraints. Implementation of software that computes motion plans in Python. Written reports.
+(Typically Offered: Fall, Spring, Summer)
+(Dual-listed with COMS 5762X).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: ENGL 2500, MATH 2070, MATH 2650, COMS 3110; (STAT 3005 or STAT 3030 or STAT 3441 or STAT 3447)
+Covers fundamentals in modeling, dynamics, planning, control, and safety of robots in mobile tasks such as the wheeled, the legged, and the aerial robotic platforms.
+(Dual-listed with COMS 5770).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 2280; COMS 2300 or CPRE 3100; MATH 2070 or MATH 3170, or consent of the instructor
+Selected topics from applied mathematics, algorithms, geometry, and mechanics that are fundamental to robotics and computer vision, and are also applied in computer graphics, geometric modeling and visualization, to me a few. Homogeneous coordinates and transformations, perspective projection, camera calibration, rotations and quaternions, roots of polynomials and polynomial systems, solution of linear and nonlinear equations, parametric and algebraic curves, curvature, torsion, Frenet formulas, surfaces, fundamental forms, principal curvatures, Gaussian and mean curvatures, geodesics, approximation, Fourier series and fast Fourier transform, nonlinear optimization, Lagrange multipliers, least squares, surface fitting and calculus of variations. Programming components. Scholarly report required for graduate credit.
+(Dual-listed with MATH 5810).
+(Cross-listed with MATH 4810).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: MATH 2650 and one of MATH 2660, MATH 2670
+First order Euler method, high order Runge-Kutta methods, and multistep methods for solving ordinary differential equations. Finite difference and finite element methods for solving partial differential equations. Local truncation error, stability, and convergence for finite difference method. Numerical solution space, polynomial approximation, and error estimate for finite element method. Computer programming required.
+(Typically Offered: Spring)
+(Dual-listed with COMS 5870).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3520 or CPRE 3080
+Introduction to network programming: protocols, programming suites, and applications. Introduction to cloud computing: concepts and case study with AWS. Introduction to selected research issues in networking and cloud computing. Graduate credit requires written report and oral presentation.
+(Dual-listed with COMS 5880).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3520 or CPRE 3080
+Fundamental concepts in the design and implementation of computer communication in both wired and wireless networks, their protocols, and applications. Topics include the layered network architecture in the Internet, applications, transport, network, and data link layers and their protocols, Socket API, software-defined networking, and network security. Lectures organized in a top-down approach to cover the layers of network design.
+(Typically Offered: Fall, Spring)
+Credits: 1-30. Repeatable, maximum of 9 credits.
+Prereq: COMS 3110; Permission of Instructor
+Graduation Restriction: No more than 9 credits of COMS 4900 or COMS 4900H may be counted toward graduation.
+(Typically Offered: Fall, Spring, Summer)
+Credits: 1-30. Repeatable, maximum of 9 credits.
+Prereq: COMS 3110; Permission of Instructor; Membership in the University Honors Program
+Graduation Restriction: No more than 9 credits of COMS 4900 or COMS 4900H may be counted toward graduation.
+(Typically Offered: Fall, Spring)
+Courses primarily for graduate students, open to qualified undergraduates:
+Credits: 4. Contact Hours: Lecture 4.
+Prereq: Graduate Standing or Permission of Instructor
+Design and implementation of data structures and algorithms using objects as the mechanism for modularity, abstraction, and code reuse. Program structures, conditionals, iteration, recursion, and exception handling. Collections including lists, stacks, queues, trees, and hash tables. Searching and sorting. Divide and conquer algorithms. Graph algorithms. Programming projects. This course may not be taken to satisfy MS (with thesis) and PhD requirements in Computer Science.
+Credits: 2. Contact Hours: Lecture 2.
+Prereq: Graduate classification
+Basic techniques for design and analysis of algorithms. Asymptotic, worst-case, average-case and amortized analyses. Topics from advanced data structures such as heap trees, hashing. Sorting, searching, basic graph algorithms, and divide-and-conquer algorithmic strategy. This course may not be taken to satisfy MS (with thesis) and PhD requirements in Computer Science.
+Credits: 2. Contact Hours: Lecture 2.
+Prereq: Graduate standing
+Algorithm design techniques such as divide and conquer, greedy method and dynamic programming. Limits of computation, decidable and undecidable problems, unsolvability, Church-Turing thesis. This course may not be taken to satisfy MS (with thesis) and PhD requirements in computer science.
+(Dual-listed with AERE 4070/ COMS 4070).
+(Cross-listed with AERE 5070).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to the fundamentals of formal methods, a set of mathematically rigorous techniques for the formal specification, validation, and verification of safety- and security-critical systems. Tools, techniques, and applications of formal methods with an emphasis on real-world use-cases such as enabling autonomous operation. Build experience in writing mathematically analyzable specifications from English operational concepts for real cyberphysical systems, such as aircraft and spacecraft. Review capabilities and limitations of formal methods in the design, verification, and system health management of today's complex systems.
+(Typically Offered: Spring)
+(Dual-listed with COMS 4090/ SE 4090).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3090 or Graduate Classification
+The requirements engineering process including elicitation, requirements analysis fundamentals, requirements specification and communication, and requirements evaluation. Modeling of functional requirements and nonfunctional requirements, traceability, and requirements change management. Case studies and software projects.
+(Dual-listed with COMS 4120/ CPRE 4120/ SE 4120).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+A study of formal techniques for model-based specification and verification of software systems. Topics include logics, formalisms, graph theory, numerical computations, algorithms and tools for automatic analysis of systems. Graduate credit requires in-depth study of concepts.
+(Dual-listed with COMS 4130/ SE 4130).
+(Cross-listed with CPRE 5130).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Classification or (COMS 3420 and (COMS 3270 or CPRE 2880))
+Algorithms, AI techniques and tools for automatically reasoning about code and program executions. Theory and foundations related to control flow analysis, dataflow analysis, abstract interpretation, and symbolic execution. Applications of program analysis to bug detection, test input generation, debugging, program repair, specification inference and trustworthy AI engineering. Concepts, algorithms, tools, benchmarks, methodologies for solving problems using program analysis and for preparing research in program analysis.
+(Dual-listed with COMS 4150).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: [(COMS 3090 or COMS 3110) and Permission of Instructor] or Graduate Classification
+An introduction to the hazard analysis, safety requirements, design, and verification of software for safety-critical and high-dependability systems. Safety analysis techniques, fault identification and recovery, and certification issues. Emphasizes a case-based and systematic approach to software's role in safe systems.
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Application of artificial intelligence (AI) techniques used to solve problems in software engineering and the use of software engineering techniques to improve AI. AI techniques such as optimization/search, classification, natural language processing, and deep learning to address software engineering problems will be included. Offered even-numbered years.
+(Typically Offered: Spring)
+(Dual-listed with COMS 4180).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to data structures, algorithms, and analysis techniques for computational problems that involve geometry. Convex hulls, line segment intersection, polygon triangulation, 2D linear programming, range queries, point location, arrangements and duality, Voronoi diagrams, Delaunay triangulations, geometric data structures, robot motion planning, visibility graphs. Other selected topics. Programming assignments. Scholarly report required for graduate credit.
+(Dual-listed with COMS 4190).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to healthcare software used for health diagnosis or treatment. Focus on software as part of a medical device, the emerging use of software as a medical device, and on mobile healthcare applications. Topics include: discovering and verifying usability, reliability, and safety requirements; design and verification of trustworthy healthcare software; assurance cases for healthcare software in a regulatory environment.
+(Cross-listed with MATH 5250/ CPRE 5250).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to parallelization techniques and numerical methods for distributed memory high performance computers. A semester project in an area related to each student's research interests is required.
+(Typically Offered: Spring)
+(Dual-listed with CPRE 4260/ COMS 4260).
+(Cross-listed with CPRE 5260).
+Credits: 4. Contact Hours: Lecture 3, Laboratory 2.
+Prereq: Graduate Standing or Permission of Instructor
+Models of parallel computation, performance measures, basic parallel constructs and communication primitives, parallel programming using MPI, parallel algorithms for selected problems including sorting, matrix, tree and graph problems, fast Fourier transforms.
+(Typically Offered: Fall)
+(Cross-listed with CPRE 5270).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3520 or CPRE 3080
+Fundamentals and advances in HPC in the context of GPUs, TPUs, multicore and HPC systems with specific focus on parallel programming models. Discussing of high-performance computing, GPGPU, scaling deep neural network training and machine learning algorithms, high-performance deep learning, intersection of HPC and AI for HPC, distributed parallel training, engineering parallel software and parallel design patterns.
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3310 or Graduate Classification
+A systematic study of the fundamental models and analytical methods of theoretical computer science. Computability, the Church-Turing thesis, decidable and undecidable problems. Computational resources such as time, space, and nonuniformity. Complexity classes, computational intractability and completeness. Selected topics from randomness, algorithmic information theory, and logic.
+(Dual-listed with COMS 4330).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Programming, modeling, and analysis of natural and engineered systems at the nanoscale. Topics include chemical reaction networks, strand displacement systems, models of self-assembly, biomolecular origami, and molecular robotics. Emphasis on mathematical methods of describing, simulating, programming, and assessing the computational power of such systems. Graduate credit requires a written or oral report on current research.
+(Dual-listed with COMS 4340).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+An exploration of quantum information and computation from a theoretical computer science perspective. Topics include quantum circuits, axioms of quantum mechanics, quantum entanglement, quantum teleportation, nonlocal games, quantum entropies, quantum information theory, quantum computational complexity, interactive proof systems, and quantum supremacy.
+(Dual-listed with COMS 4350).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110 or equivalent; graduate standing or permission of instructor
+Algorithmic challenges involved in solving computational problems on massive data sets. Probabilistic data structures, Curse of Dimensionality and dimensionality reduction, locality sensitive hashing, similarity measures, matrix decompositions. Optimization problems in massive data analysis. Computational problems that arise in the context of web search, social network analysis, online advertising etc. Practical aspects include implementation and performance evaluation of the algorithms on real world data sets. Graduate credit requires a written report on current research.
+(Dual-listed with COMS 4400/ SE 4400).
+Credits: 3. Contact Hours: Lecture 3, Laboratory 1.
+Prereq: Graduate Standing or Permission of Instructor
+Theory of compiling and implementation issues of programming languages. Programming projects leading to the construction of a compiler. Projects with different difficulty levels will be given for 4400 and 5400. Topics include: lexical, syntactic and semantic analyses, syntax-directed translation, code generation, runtime environment and library support.
+(Dual-listed with COMS 4410).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3420 or COMS 4400 or Graduate Classification
+Survey of the goals and problems of language design. Formal and informal studies of a wide variety of programming language features including type systems. Creative use of functional and declarative programming paradigms.
+(Cross-listed with BCB 5440/ GDCB 5440/ CPRE 5440).
+Credits: 4. Contact Hours: Lecture 3, Laboratory 2.
+Prereq: Graduate Standing or Permission of Instructor
+A practical, hands-on overview of how to apply bioinformatics to biological research. Recommended for biologists desiring to gain computational molecular biology skills. Topics include: sequence analysis, genomics, proteomics, phylogenetic analyses, ontology enrichment, systems biology, data visualization and emergent technologies. Offered odd-numbered years.
+(Typically Offered: Fall)
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to a big data research area in bioinformatics. Focus on applying computational techniques to huge genomic sequence data. These techniques include finding optimal sequence alignments, generating genome assemblies, finding genes in genomic sequences, mapping short sequences onto a genome assembly, finding single-nucleotide and structural variations, building phylogenetic trees from genome sequences, and performing genome-wide association studies.
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Classification or Permission of Instructor
+A comparative study of high-level language facilities for process synchronization and communication. Analysis of deadlock, concurrency control and recovery. Protection issues including capability-based systems, access and flow control, encryption, and authentication. Additional topics chosen from distributed operating systems, soft real-time operating systems, and advanced security issues. Programming and research projects.
+(Dual-listed with COMS 4530).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COM S 3110; (STAT 3005 or STAT 3030 or STAT 3441 or STAT 3447)
+Latest online threats on identity theft, fundamentals of privacy preserving algorithms, techniques, and mechanisms to minimize disclosure of sensitive information while maintaining availability. Theory and fundamentals underpinning measures to evaluate the privacy and availability of data; implementation and deployment of privacy-preserving data operations including pre- and post-randomization techniques, homomorphisms, and secure function evaluation protocols.
+(Typically Offered: Spring)
+(Dual-listed with COMS 4540/ CPRE 4540).
+(Cross-listed with CPRE 5540).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate classification or (COMS 3110 and (COMS 3520 or CPRE 3080))
+Theoretical and practical issues of design and implementation of distributed systems. The client server paradigm, inter-process communications, synchronization and concurrency control, naming, consistency and replication, fault tolerance, and distributed file systems. Graduate credit requires additional in-depth study of concepts. Programming projects and written reports.
+(Typically Offered: Spring)
+(Dual-listed with COMS 4550).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to discrete-event simulation with a focus on computer science applications, including performance evaluation of networks and distributed systems. Overview of algorithms and data structures necessary to implement simulation software. Discrete and continuous stochastic models, random number generation, elementary statistics, simulation of queuing and inventory systems, Monte Carlo simulation, point and interval parameter estimation. Graduate credit requires additional in-depth study of concepts.
+(Cross-listed with ME 5570/ CPRE 5570).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Fundamentals of computer graphics technology. Data structures. Parametric curve and surface modeling. Solid model representations. Applications in engineering design, analysis, and manufacturing. Offered odd-numbered years.
+(Typically Offered: Fall)
+(Dual-listed with COMS 4580X).
+Credits: 3. Contact Hours: Lecture 3.
+Repeatable, maximum of 3 credits.
+Prereq: Graduate Standing or Permission of Instructor
+Foundations of generative AI with emphasis on cybersecurity principles, threats, and defenses. Core model families such as VAEs, GANs, diffusion, flows, energy-based models, and LLMs and how they are trained and deployed in adversarial settings. Key topics include representation learning, transformers, prompting and agentic AI, offensive uses (e.g., exploit generation, prompt injection, poisoning, backdoors, exfiltration, privacy leakage), and defensive methods such as interpretability, drift/robustness evaluation, provenance/authentication, and secure hardening.
+(Typically Offered: Fall)
+(Dual-listed with COMS 4590/ CPRE 4590).
+(Cross-listed with CPRE 5590).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to cloud computing concepts and systems. Security and privacy threats in cloud computing. Practical techniques for cloud computing security. Theoretical and practical solutions for secure outsourcing of data and computation. Oral presentations and research projects.
+(Cross-listed with CPRE 5600/ CYBSC 5600).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Examination of applications of machine learning and big data techniques to various security and privacy problems, as well as secure and privacy-preserving machine learning algorithms. Offered irregularly.
+(Typically Offered: Spring)
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate classification
+Database design including entity-relationship model, relational data model, and non-relational data models, data dependency, and normalization. Database management including physical storage, access methods, query processing, and transaction management. Database systems of special purposes such as spatial databases, mobile object databases, and multimedia databases. Introduction to current database research such as cloud data management and Internet information retrieval. Significant work on reading and presentation of research publications.
+(Dual-listed with COMS 4630X).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to types of healthcare data, complexities of privacy, confidentiality and security within healthcare. Key laws and regulations specific to healthcare such as HIPAA and the European Data Protection Directive 95/46/EC. Types of data sources and data elements utilized in healthcare. Algorithms for privacy, security and confidentiality of electronic health records. Role-based access control in healthcare.
+(Dual-listed with COMS 4640X).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to use of AI techniques in healthcare. Topics may include: AI techniques for medical diagnosis, prognosis and treatment, AI techniques for diagnosis of lung and brain disorders from 2D medical imaging data, classification models of 2D medical images, AI techniques for 3D medical imaging data, use of multi-modal imaging data in disease detection and diagnosis. Programming projects.
+(Cross-listed with BCB 5670/ CPRE 5670).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing; (COMS 5010X or COMS 2280 or COMS 2300 or Instructor Permission)
+Biology as an information science. A review of the algorithmic principles that are driving the advances in bioinformatics and computational biology.
+(Cross-listed with BCB 5680/ GDCB 5680/ STAT 5680).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Statistical models for sequence data, including applications in genome annotation, motif discovery, variant discovery, molecular phylogeny, gene expression analysis, and metagenomics. Statistical topics include model building, inference, hypothesis testing, and simple experimental design, including for big data/complex models.
+(Typically Offered: Spring)
+(Cross-listed with BCB 5690/ BBMB 5690/ CPRE 5690/ GDCB 5690).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Molecular structures including genes and gene products: protein, DNA and RNA structure. Structure determination methods, structural refinement, structure representation, comparison of structures, visualization, and modeling. Molecular and cellular structure from imaging. Analysis and prediction of protein secondary, tertiary, and higher order structure, disorder, protein-protein and protein-nucleic acid interactions, protein localization and function, bridging between molecular and cellular structures. Molecular evolution.
+(Typically Offered: Fall)
+(Cross-listed with BCB 5700/ CPRE 5700/ GDCB 5700/ STAT 5700).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Algorithmic and statistical approaches in computational functional genomics and systems biology. Analysis of high throughput biological data obtained using system-wide measurements. Topological analysis, module discovery, and comparative analysis of gene and protein networks. Modeling, analysis, and inference of transcriptional regulatory networks, protein-protein interaction networks, and metabolic networks. Dynamic systems and whole-cell models. Ontology-driven, network based, and probabilistic approaches to information integration.
+(Typically Offered: Spring)
+Credits: 3. Contact Hours: Laboratory 2, Lecture 2.
+Prereq: Graduate Standing or Permission of Instructor
+Hands-on exploration of data science, machine learning, deep learning, and applied AI, empowering graduate students to master data wrangling, visualization, and predictive modeling using Python and industry-standard libraries. Covering foundational techniques to advanced neural networks, transfer learning, and AI-driven applications like large language models and retrieval-augmented generation. Real-world problem-solving through mini programming assignments, In-class competitions, and team projects. Dynamic blend of concepts and practice which makes the course both comprehensive and highly relevant to the current demands of industry and academia. May not be used for graduate credit in the Computer Science MS and PhD degree programs. Prior basic Python programming knowledge recommended.
+(Typically Offered: Fall)
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate classification
+Risk assessment and mitigation mechanisms of various stages of machine learning/data science lifecycles with the emphasis on the early stages: study design, data acquisition, exploratory data analysis, feature engineering, modeling and training, and model evaluation. Case studies of machine learning/data science lifecycles used in application domains along with methods for risk assessment and mitigation. DS 2020 recommended.
+(Typically Offered: Fall)
+(Dual-listed with COMS 4720).
+Credits: 3. Contact Hours: Lecture 3, Discussion 1.
+Prereq: COMS 3110; (STAT 3005 or STAT 3030 or STAT 3441 or STAT 3447); ENGL 2500; graduate standing or permission of instructor
+Basic principles, techniques, and applications of artificial intelligence. Specification, design, implementation, and applications of intelligent agents. Computational models of intelligent behavior, including problem solving, knowledge representation and reasoning, planning, decision making, learning, perception, and communication. Artificial intelligence programming. Term project and written report for graduate credit.
+Credits: 3. Contact Hours: Lecture 4.
+Prereq: Graduate Classification or Permission of Instructor
+Basic principles, techniques, and applications of machine learning. Design, analysis, theoretical foundation, implementation, and applications of learning algorithms. Selected machine learning techniques in supervised learning, unsupervised learning, and reinforcement learning, including Bayesian decision theory, computational learning theory, decision trees, linear models, support vector machines, artificial neural networks, instance-based learning, probabilistic graphical models, ensemble learning, clustering algorithms, dimensionality reduction and feature selection. Selected applications in data mining and pattern recognition.
+(Dual-listed with COMS 4740).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110; STAT 3005 or STAT 3030 or STAT 3441 or STAT 3447; MATH 1650; ENGL 2500; Graduate standing or permission of instructor
+Introduction to concepts, tools and techniques of machine learning for applications. Selected machine learning algorithms in practical data mining tasks such as classification, regression, and clustering, e.g., association rules, decision trees, linear models, Bayesian learning, support vector machines, artificial neural networks, instance-based learning, probabilistic graphical models, ensemble learning, and c lustering algorithms. Selected applications in data mining and pattern recognition.
+(Cross-listed with HCI 5750/ CPRE 5750).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+This class covers statistical and algorithmic methods for sensing, recognizing, and interpreting the activities of people by a computer. This semester we will focus on machine perception techniques that facilitate and augment human-computer interaction. The main goal of the class is to introduce computational perception on both theoretical and practical levels. Participation in small groups to design, implement, and evaluate a prototype of a human-computer interaction system that uses one or more of the techniques covered in the lectures.
+(Typically Offered: Spring)
+(Dual-listed with COMS 4760).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3110 and ENGL 2500 or Graduate Classification
+Recent techniques for developing algorithms that automatically generate continuous motions while satisfying geometric constraints. Applications in areas such as robotics and autonomous systems. Discrete planning, kinematics, configuration space, collision detection, sampling-based motion planning, nonholonomic systems and differential constraints. Implementation of software that computes motion plans in Python. Proficiency with programming in Python expected. Written reports.
+(Dual-listed with COMS 4762X).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Covers fundamentals in modeling, dynamics, planning, control, and safety of robots in mobile tasks such as the wheeled, the legged, and the aerial robotic platforms.
+(Dual-listed with COMS 4770).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 2280 and COMS 2300 or CPRE 3100; MATH 2070 or MATH 3170, or Graduate Classification
+Selected topics from applied mathematics, algorithms, geometry, and mechanics that are fundamental to robotics and computer vision, and are also applied in computer graphics, geometric modeling and visualization, to name a few. Homogeneous coordinates and transformations, perspective projection, camera calibration, rotations and quaternions, roots of polynomials and polynomial systems, solution of linear and nonlinear equations, parametric and algebraic curves, curvature, torsion, Frenet formulas, surfaces, fundamental forms, principal curvatures, Gaussian and mean curvatures, geodesics, approximation, Fourier series and fast Fourier transform, nonlinear optimization, Lagrange multipliers, least squares, surface fitting and calculus of variations. Programming components. Scholarly report required for graduate credit.
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Advances in optimization theory and algorithms with evolving applications for machine learning. Theoretical foundations at the intersection of optimization and machine learning to conduct advanced research in machine learning and related fields. Emphasis on proof techniques for optimization algorithms in machine learning.
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to NLP and its connection with other branches of Artificial Intelligence, such as machine learning and knowledge representation. Text analysis including n-gram language models, stemming and lemmatization, part-of-speech (POS) tagging. Topic modeling, summarization, text classification, knowledge extraction, and text reasoning. Applications of deep learning in NLP including question answering, machine reading comprehension, word and sentence embedding. Research project required.
+(Cross-listed with CPRE 5810).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Quantitative principles of computer architecture design, instruction set design, processor architecture: pipelining and superscalar design, instruction level parallelism, memory organization: cache and virtual memory systems, multiprocessor architecture, cache coherency, interconnection networks and message routing, I/O devices and peripherals. CPRE 3810 or equivalent computer architecture or computer organization course required. Note that this implies you have a familiarity with ISAs, basic computer organization, memory systems, digital logic design, basic programming (C and assembly), and command-line Linux.
+(Typically Offered: Fall)
+(Cross-listed with CPRE 5830).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Introduction to reconfigurable computing, FPGA technology and architectures, spatial computing architectures such as systolic and bit serial adaptive network architectures, static and dynamic rearrangeable interconnection architectures, processor architectures incorporating reconfigurabiltiy.
+(Dual-listed with COMS 4870).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 3520 or CPRE 3080; graduate standing or permission of instructor
+Introduction to network programming: protocols, programming suites, and applications. Introduction to cloud computing: concepts and case study with AWS. Introduction to selected research issues in networking and cloud computing. Graduate credit requires written report and oral presentation.
+(Dual-listed with COMS 4880).
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: Graduate Standing or Permission of Instructor
+Fundamental concepts in the design and implementation of computer communication in both wired and wireless networks, their protocols, and applications. Topics include the layered network architecture in the Internet, applications, transport, network, and data link layers and their protocols, Socket API, software-defined networking, and network security. Lectures organized in a top-down approach to cover the layers of network design.
+(Typically Offered: Fall, Spring)
+Credits: 1-30. Repeatable.
+Prereq: Instructor Permission for Course
+Special Topics in Computer Science.
+Credits: 1. Contact Hours: Lecture 1.
+Prereq: Graduate classification
+Introduction to Graduate program, Graduate Program Policies, Computing Resources, Faculty Research Areas, Reading Computer Science Research Articles, LaTEX, Research Writing and Presentation, Attend Research Colloquia. Offered on a satisfactory-fail basis only.
+Credits: 1. Repeatable.
+Prereq: Graduate Standing or Permission of Instructor
+Experience interacting with industry, government, or nonprofit organizations to learn AI/data science techniques in real-world settings. Explore risks to the trustworthiness of data science lifecycles in practice.
+(Typically Offered: Fall, Spring)
+Credits: Required. Repeatable.
+Prereq: Graduate classification
+Supervised internship working in professional settings appropriate to the student's degree program. Academic work under faculty supervision. Offered on a satisfactory-fail basis only.
+Credits: 1-3. Repeatable.
+Prereq: Instructor Permission for Course
+Creative component for nonthesis option of Master of Science degree. Offered on a satisfactory-fail basis only.
+(Typically Offered: Fall, Spring)
+Courses for graduate students:
+Credits: 1-30. Contact Hours: Lecture 30.
+Repeatable.
+Prereq: Instructor Permission for Course
+Seminar in Computer Science. Offered on a satisfactory-fail basis only.
+Credits: 3. Contact Hours: Lecture 3.
+Repeatable.
+Advanced algorithm analysis and design techniques. Topics include, but are not limited to, graph algorithms, geometric algorithms, approximation algorithms, fixed-parameter algorithms, randomized algorithms and advanced data structures. Content varies by semester.
+Credits: 3. Contact Hours: Lecture 3.
+The theory of distributed computation. Algorithms, lower bounds and impossibility results. Fundamental problems including consensus, leader election, mutual exclusion and clock synchronization. Synchronous, asynchronous and partially synchronous distributed systems models. Shared memory and message passing systems. Fault-tolerance and randomization. Wait-free object simulations. Distributed shared memory. Special topics vary from year to year.
+Credits: 3. Contact Hours: Lecture 3.
+Parallel solutions of numerical and non-numerical problems, implementation of parallel programs on parallel machines, performance and other computational issues in parallel programming.
+(Cross-listed with CPRE 6260).
+Credits: 3. Contact Hours: Lecture 3.
+Algorithm design for high-performance computing. Parallel algorithms for multidimensional tree data structures, space-filling curves, random number generation, graph partitioning and load balancing. Applications to grid and particle-based methods and computational biology.
+Credits: 3. Contact Hours: Lecture 3.
+Repeatable.
+Advanced study in the quantitative theory of computation. Time and space complexity of algorithmic problems. The structure of P, NP, PH, PSPACE, and other complexity classes, especially with respect to resource-bounded reducibilities and complete problems. Complexity relative to auxiliary information, including oracle computation and relativized classes, randomized algorithms, advice machines, Boolean circuits. Kolmogorov complexity and randomness. Novel models of computation emerging in a rapidly changing field.
+Credits: 3. Contact Hours: Lecture 3.
+Repeatable.
+Prereq: Graduate Classification or Permission of Instructor
+Advanced study of the role of randomness in computation. Randomized algorithms, derandomization, and probabilistic complexity classes. Kolmogorov complexity, algorithmic information theory, and algorithmic randomness. Applications chosen from cryptography, interactive proof systems, computational learning, lower bound arguments, mathematical logic, and the organization of complex systems. Novel models of computation emerging in a rapidly changing field.
+Credits: 3. Contact Hours: Lecture 3.
+Fundamentals of Game Theory: individual decision making, strategic and extensive games, mixed strategies, backward induction, Nash and other equilibrium concepts. Discussion of Auctions and Bargaining. Repeated, Bayesian and evolutionary games. Interactive Epistemology: reasoning about knowledge in multiagent environment, properties of knowledge, agreements, and common knowledge. Reasoning about and representing uncertainty, probabilities, and beliefs. Uncertainty in multiagent environments. Aspects and applications of game theory, knowledge, and uncertainty in other areas, especially Artificial Intelligence and Economics, will be discussed.
+(Cross-listed with CPRE 6490).
+Credits: 3. Contact Hours: Lecture 3.
+Design and analysis of algorithms for applications in computational biology, pairwise and multiple sequence alignments, approximation algorithms, string algorithms including in-depth coverage of suffix trees, semi-numerical string algorithms, algorithms for selected problems in fragment assembly, phylogenetic trees and protein folding. No background in biology is assumed. Also useful as an advanced algorithms course in string processing.
+Credits: 3. Contact Hours: Lecture 3.
+Repeatable.
+Prereq: COMS 5520
+Selected topics in the research of distributed systems, including but not limited to blockchain, cloud computing, cyber-physical systems, distributed learning, edge computing, Internet of things, mobile computing, as well as fairness, privacy, reliability and security in the systems.
+Credits: 3. Contact Hours: Lecture 3.
+Advanced formal methods to specify and study correctness and timing properties of complex systems and software, with a particular focus on concurrent and distributed behavior. Topics include: Petri nets and related formalisms to describe discrete-state systems; decision diagram algorithms for state-space and reachability graph generation, symbolic model checking, and timing analysis; Markov models for exact and approximate probabilistic verification.
+Credits: 3. Contact Hours: Lecture 3.
+Repeatable, maximum of 2 times.
+Selected advanced topics among computer graphics techniques, human-computer interaction concepts, immersive technologies, interactive techniques, and visualization methods. Content varies by semester. (Typically Offered: Alternate Fall).
+Credits: 3. Contact Hours: Lecture 3.
+Repeatable.
+Advanced topics chosen from the following: database design, data models, query systems, query optimization, incomplete information, logic and databases, multimedia databases; temporal, spatial and belief databases, semistructured data, concurrency control, parallel and distributed databases, information retrieval, data warehouses, wrappers, mediators, and data mining.
+Credits: 3. Contact Hours: Lecture 3.
+Repeatable, maximum of 6 credits.
+Prereq: COMS 5110
+Advanced topics on theoretical and technical foundations in Software Engineering. Content varies by semester. Graduation Restriction: Maximum 6 credits of COMS 6650 may apply toward graduation. Offered irregularly.
+(Typically Offered: Fall, Spring)
+Credits: 3. Contact Hours: Lecture 3.
+Selected topics in risk assessment and mitigation mechanisms on machine learning/data science lifecycles. Case studies of machine learning/data science lifecycles in application domains, along with risk assessment and mitigation methods. Content varies by semester. (Typically Offered: Spring)
+Credits: 3. Contact Hours: Lecture 3.
+Repeatable.
+Selected topics in probabilistic graphical models, causal inference, semantic web, information retrieval, natural language processing, knowledge representation and reasoning, deep learning, embedding, distributed learning, incremental learning, multi-task learning, multi-strategy learning, multi-relational learning, modeling the internet and the web, automated scientific discovery, neural and cognitive modeling. Advanced applications of artificial intelligence in bioinformatics, distributed systems, natural language, multimedia data, decision making, robotics, and more.
+Credits: 3. Contact Hours: Lecture 3.
+Repeatable.
+Prereq: COMS 4720 or COMS 5720 or COMS 5730 or COMS 4740 or COMS 5740
+Advanced topics in machine learning. Selected topics in computational learning theory, Bayesian and information theoretic models (ML, MAP, MDL, MML), probabilistic graphical models, statistical relational learning, reinforcement learning, and deep learning.
+Credits: 3. Contact Hours: Lecture 3.
+Prereq: COMS 5720 or Permission of Instructor
+Theoretical and practical issues in the design and analysis of autonomous and robotic systems, including self-driving cars. Topics include object detection, perception, mapping, localization, prediction, planning, decision-making, control, learning, kinematics and dynamics, specification, and model-based design and verification.
+(Cross-listed with CPRE 6810).
+Credits: 3. Contact Hours: Lecture 3.
+Current topics in computer architecture design and implementation. Advanced pipelining, cache and memory design techniques. Interaction of algorithms with architecture models and implementations. Tradeoffs in architecture models and implementations. Offered odd-numbered years. (Typically Offered: Spring)
+Credits: 1-30. Repeatable.
+Prereq: Instructor Permission for Course
+Research. Offered on a satisfactory-fail basis only.
