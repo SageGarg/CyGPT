@@ -23,7 +23,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
 #   text-embedding-3-small  →  1536 dims  (fast, cheap)
 #   text-embedding-3-large  →  3072 dims  (best quality, swap below)
-EMBED_MODEL = "text-embedding-3-small"
+EMBED_MODEL = "text-embedding-ada-002"
 EMBED_DIM   = 1536
 CHAT_MODEL  = "gpt-4o"
 

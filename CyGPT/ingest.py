@@ -21,7 +21,7 @@ import sys
 import time
 from pathlib import Path
 
-from loguru import logger
+
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table

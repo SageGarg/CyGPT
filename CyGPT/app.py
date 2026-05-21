@@ -5,7 +5,7 @@ import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).parent))
 from src.indexer import Chunk, load_index
-from src.retriever import retrieve
+from src.retriever import retrieve, retrieve_for_comparison
 from src.answerer import stream_answer
 from src.features import (
     stream_degree_plan, stream_conflict_check,
@@ -591,7 +591,7 @@ with st.sidebar:
     # ── Logo flush to top ─────────────────────────────────────────────────────
     st.markdown('<style>[data-testid="stSidebar"] section:first-child{padding-top:0!important}</style>', unsafe_allow_html=True)
     if LOGO_PATH.exists():
-        st.image(str(LOGO_PATH), use_container_width=True)
+        st.image(str(LOGO_PATH), width="stretch")
     else:
         st.markdown(
             '<div style="text-align:center;padding:20px 16px 8px;background:#C8102E;">'
@@ -613,7 +613,7 @@ with st.sidebar:
     st.markdown('<div style="height:1px;background:rgba(255,240,200,0.08);margin:8px 0;"></div>', unsafe_allow_html=True)
 
     # ── New Chat button ───────────────────────────────────────────────────────
-    if st.button("＋  New Chat", use_container_width=True):
+    if st.button("＋  New Chat", width="stretch"):
         st.session_state.messages = []
         st.session_state.history  = []
         st.rerun()
@@ -681,7 +681,7 @@ if page == "💬  Chat":
                         st.error(f"Transcription failed: {e}")
         with s3:
             st.write("")
-            if st.button("🗑️ Clear conversation", use_container_width=True):
+            if st.button("🗑️ Clear conversation", width="stretch"):
                 st.session_state.messages = []
                 st.session_state.history  = []
                 st.rerun()
@@ -700,7 +700,7 @@ if page == "💬  Chat":
         c1, c2, c3 = st.columns(3)
         for col, p in zip([c1,c2,c3,c1,c2,c3], starters):
             with col:
-                if st.button(p, key=f"s_{p[:18]}", use_container_width=True):
+                if st.button(p, key=f"s_{p[:18]}", width="stretch"):
                     st.session_state.pending_q = p
                     st.rerun()
         st.write("")
@@ -713,7 +713,7 @@ if page == "💬  Chat":
                 if msg.get("followups"):
                     fc = st.columns(len(msg["followups"]))
                     for fq_idx, (col, fq) in enumerate(zip(fc, msg["followups"])):
-                        if col.button(fq, key=f"fq_{msg_idx}_{fq_idx}", use_container_width=True):
+                        if col.button(fq, key=f"fq_{msg_idx}_{fq_idx}", width="stretch"):
                             st.session_state.pending_q = fq
                             st.rerun()
                 if msg.get("sources"):
@@ -743,7 +743,7 @@ elif page == "🎓  Degree Planner":
         st.write("")
         st.write("")
         go = st.button("Generate", type="primary",
-                        use_container_width=True, key="planner_go")
+                        width="stretch", key="planner_go")
 
     if go and major_input.strip():
         with st.spinner(f"Finding {major_input} requirements…"):
@@ -832,9 +832,9 @@ elif page == "⚖️  Compare Majors":
             st.warning("Enter both major names.")
         else:
             with st.spinner(f"Comparing {major_a} vs {major_b}…"):
-                hits = retrieve(
-                    f"{major_a} {major_b} requirements credits courses curriculum",
-                    faiss_index, bm25, chunks, expand=True)
+                hits = retrieve_for_comparison(
+                    major_a.strip(), major_b.strip(),
+                    faiss_index, bm25, chunks)
             st.divider()
             with st.chat_message("assistant"):
                 ph, result = st.empty(), ""
@@ -877,7 +877,7 @@ if page == "💬  Chat":
             if followups:
                 fc = st.columns(len(followups))
                 for fq_idx, (col, fq) in enumerate(zip(fc, followups)):
-                    if col.button(fq, key=f"fqn_new_{fq_idx}_{len(st.session_state.messages)}", use_container_width=True):
+                    if col.button(fq, key=f"fqn_new_{fq_idx}_{len(st.session_state.messages)}", width="stretch"):
                         st.session_state.pending_q = fq
                         st.rerun()
             if hits:

@@ -32,7 +32,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 from config import EMBED_MODEL, OPENAI_API_KEY
 from src.indexer import Chunk, embed_texts
 
-TOP_K_RETRIEVE = 30   # candidates from hybrid search
+TOP_K_RETRIEVE = 50   # candidates from hybrid search (was 30)
 TOP_K_FINAL    = 8    # chunks sent to GPT-4o
 
 client = OpenAI(api_key=OPENAI_API_KEY or os.getenv("OPENAI_API_KEY"))
@@ -79,7 +79,7 @@ def expand_query(question: str, n: int = 3) -> List[str]:
     """
     try:
         resp = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=[
                 {
                     "role": "system",
@@ -94,7 +94,7 @@ def expand_query(question: str, n: int = 3) -> List[str]:
                 },
                 {"role": "user", "content": f"Original question: {question}"},
             ],
-            temperature=0.4,
+            temperature=0.1,
             max_tokens=300,
         )
         raw = resp.choices[0].message.content or "[]"
@@ -187,7 +187,7 @@ def _rerank_openai(question: str, candidates: List[Chunk]) -> List[Chunk]:
 
     try:
         resp = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You output only a JSON array of integers. No other text."},
                 {"role": "user", "content": prompt},
@@ -255,3 +255,42 @@ def retrieve(
         f"query='{question[:60]}'"
     )
     return final
+
+
+def retrieve_for_comparison(
+    item_a: str,
+    item_b: str,
+    index:  faiss.IndexFlatIP,
+    bm25:   BM25Okapi,
+    chunks: List[Chunk],
+) -> List[Chunk]:
+    """
+    Retrieve chunks for comparing two majors/items SEPARATELY.
+    
+    Instead of one search for "A vs B" (which might bias toward whichever
+    has more indexed content), this searches for A and B independently,
+    then combines balanced results.
+    """
+    # Retrieve for first item
+    q_a = f"{item_a} requirements credits courses curriculum major"
+    results_a = retrieve(q_a, index, bm25, chunks, expand=False)[:4]
+    
+    # Retrieve for second item
+    q_b = f"{item_b} requirements credits courses curriculum major"
+    results_b = retrieve(q_b, index, bm25, chunks, expand=False)[:4]
+    
+    # Combine: alternate between A and B to ensure balanced representation
+    combined = []
+    for a, b in zip(results_a, results_b):
+        combined.append(a)
+        combined.append(b)
+    
+    # Add any remaining chunks
+    combined.extend(results_a[len(results_b):])
+    combined.extend(results_b[len(results_a):])
+    
+    logger.info(
+        f"Comparison retrieval: {len(results_a)} chunks for '{item_a}' + "
+        f"{len(results_b)} chunks for '{item_b}' = {len(combined)} total"
+    )
+    return combined

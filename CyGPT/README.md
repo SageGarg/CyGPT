@@ -49,24 +49,25 @@ streamlit run app.py
 
 ## What makes this extraordinary
 
-| Feature | Detail |
-|---|---|
-| **Column-aware PDF parsing** | Splits text blocks by page midpoint, sorts each column by Y, preventing cross-column URL confusion |
-| **Async scraping** | httpx + asyncio with semaphore-limited concurrency; 15× faster than sequential requests |
-| **7-day disk cache** | Re-runs are near-instant; pages only re-fetched after expiry |
-| **Hybrid retrieval** | BM25 (keyword) + FAISS (semantic) fused with Reciprocal Rank Fusion |
-| **Query expansion** | GPT-4o-mini rewrites each question 3 ways, boosting recall |
-| **Cross-encoder reranking** | sentence-transformers cross-encoder scores (query, passage) pairs; far more accurate than dot-product similarity |
-| **Streaming UI** | Token-by-token streaming so users see results immediately |
-| **Source cards** | Every answer shows which URLs were used, with reranker confidence scores |
-| **Multi-turn memory** | Last 3 conversation turns included in context |
-| **Follow-up suggestions** | GPT generates 3 relevant next questions after each answer |
+| Feature                      | Detail                                                                                                           |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Column-aware PDF parsing** | Splits text blocks by page midpoint, sorts each column by Y, preventing cross-column URL confusion               |
+| **Async scraping**           | httpx + asyncio with semaphore-limited concurrency; 15× faster than sequential requests                          |
+| **7-day disk cache**         | Re-runs are near-instant; pages only re-fetched after expiry                                                     |
+| **Hybrid retrieval**         | BM25 (keyword) + FAISS (semantic) fused with Reciprocal Rank Fusion                                              |
+| **Query expansion**          | GPT-4o rewrites each question 3 ways, boosting recall                                                            |
+| **Cross-encoder reranking**  | sentence-transformers cross-encoder scores (query, passage) pairs; far more accurate than dot-product similarity |
+| **Streaming UI**             | Token-by-token streaming so users see results immediately                                                        |
+| **Source cards**             | Every answer shows which URLs were used, with reranker confidence scores                                         |
+| **Multi-turn memory**        | Last 3 conversation turns included in context                                                                    |
+| **Follow-up suggestions**    | GPT generates 3 relevant next questions after each answer                                                        |
 
 ## Configuration
 
 Edit `config.py` to change:
+
 - `ALLOWED_DOMAINS` — which sites to scrape
-- `EMBED_MODEL` — swap to `text-embedding-3-large` for higher quality
+- `EMBED_MODEL` — swap to `text-embedding-ada-002` for higher quality
 - `CHAT_MODEL` — defaults to `gpt-4o`
 - `MAX_URLS` — how many URLs to process per run
 - `TOP_K_FINAL` — how many chunks to send to GPT

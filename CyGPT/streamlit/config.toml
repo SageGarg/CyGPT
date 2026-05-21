@@ -1,3 +1,16 @@
+[server]
+port = 8501
+headless = true
+runOnSave = true
+allowedServerAddresses = ["localhost", "127.0.0.1", "10.48.66.38"]
+enableXsrfProtection = false
+enableCORS = false
+
+[client]
+showErrorDetails = false
+toolbarMode = "viewer"
+showSidebarNavigation = true
+
 [theme]
 base                     = "light"
 primaryColor             = "#C8102E"
