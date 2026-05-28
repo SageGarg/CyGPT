@@ -1,0 +1,156 @@
+#,Level,Question
+1,Remember,What is the deadline for Fall semester tuition payment at Iowa State?
+2,Remember,Who is the current president of Iowa State University?
+3,Remember,What are the admission requirements for Computer Science majors?
+4,Remember,Where is Parks Library located?
+5,Remember,What GPA is required to remain in good academic standing?
+6,Remember,What are the office hours of the Financial Aid Office?
+7,Remember,What is the address of the Memorial Union?
+8,Remember,What majors are offered under the College of Engineering?
+9,Remember,What is the phone number for ISU Dining Services?
+10,Remember,What scholarships are available for international students?
+11,Remember,What are the requirements for COM S 3110?
+12,Remember,Which department offers SE 3190?
+13,Remember,What is CyRide?
+14,Remember,What dining centers are available on campus?
+15,Remember,What are the housing options for freshmen?
+16,Remember,What is the acceptance rate of Iowa State University?
+17,Remember,What is the mascot of Iowa State?
+18,Remember,What are the graduation credit requirements for Computer Science?
+19,Remember,Where can students print documents on campus?
+20,Remember,What are the library hours during finals week?
+21,Remember,What is Iowa State University's main campus address and what city is it located in?
+22,Remember,How many undergraduate colleges does Iowa State University have?
+23,Remember,What is the name of Iowa State's student newspaper?
+24,Remember,What does GPA stand for and what is the minimum GPA required to stay in good academic standing at ISU?
+25,Remember,What standardized tests does Iowa State accept for admission?
+26,Remember,What is the name of ISU's mascot and what is the university's official color?
+27,Remember,When is the application deadline for the Fall semester at Iowa State?
+28,Remember,What is the FAFSA and where can ISU students submit it?
+29,Remember,What is the credit hour requirement to graduate with a bachelor's degree at ISU?
+30,Remember,List the graduate programs offered by the ISU Department of Computer Science.
+31,Remember,What is the tuition cost for in-state undergraduate students at ISU for the current academic year?
+32,Remember,What is the name of ISU's honors program?
+33,Understand,Explain how course registration works at Iowa State.
+34,Understand,Summarize the process for applying to internships through Career Services.
+35,Understand,Explain the difference between Computer Science and Software Engineering majors at ISU.
+36,Understand,Describe how meal plans work for students living on campus.
+37,Understand,Explain what academic probation means at Iowa State.
+38,Understand,Summarize the process for changing majors.
+39,Understand,Explain how financial aid appeals work.
+40,Understand,Describe the role of academic advisors.
+41,Understand,Explain how Iowa State's honors program works.
+42,Understand,Summarize the process for applying for on-campus jobs.
+43,Understand,Explain how parking permits work at ISU.
+44,Understand,Describe the student health services available.
+45,Understand,Explain the purpose of AccessPlus.
+46,Understand,Summarize Iowa State's transfer credit policy.
+47,Understand,Explain how to reserve a study room in Parks Library.
+48,Understand,Describe the process for joining student organizations.
+49,Understand,Explain how Canvas is used in ISU courses.
+50,Understand,Summarize the process for graduation applications.
+51,Understand,Explain the purpose of office hours.
+52,Understand,Describe how international student orientation works.
+53,Understand,Can you explain how Iowa State's semester system works and how it compares to a quarter system?
+54,Understand,Summarize the differences between Iowa State's in-state and out-of-state tuition structures.
+55,Understand,How does Iowa State's transfer credit policy work for community college students?
+56,Understand,Explain the difference between a major a minor and a certificate at Iowa State.
+57,Understand,What is VEISHEA and why is it significant in ISU's history?
+58,Understand,How does ISU's co-op program differ from a traditional internship?
+59,Understand,Summarize the support services available at the ISU Student Wellness Center.
+60,Understand,How does ISU's ROTC program work and what benefits does it offer to participating students?
+61,Understand,Describe the differences between the ISU on-campus and off-campus housing options.
+62,Apply,I am a freshman Computer Science student. What classes should I take in my first semester?
+63,Apply,I missed the scholarship deadline. What should I do next?
+64,Apply,I want to transfer from Mechanical Engineering to Computer Science. What steps should I follow?
+65,Apply,I failed a prerequisite course. How will it affect my graduation timeline?
+66,Apply,Help me plan a schedule for a Software Engineering student interested in AI.
+67,Apply,I have a conflict between two final exams. What should I do?
+68,Apply,Which student organizations should I join if I'm interested in cybersecurity?
+69,Apply,I need a quiet place to study late at night on campus. Where should I go?
+70,Apply,I am an international student looking for part-time jobs. What resources should I use?
+71,Apply,I want to graduate early. How can I structure my semesters?
+72,Apply,I forgot my university password. What steps should I take?
+73,Apply,Recommend a weekly schedule balancing classes gym and study time.
+74,Apply,I want to get involved in undergraduate research. Where do I start?
+75,Apply,Which electives would complement a career in machine learning?
+76,Apply,I have back-to-back classes across campus. How can I optimize my route?
+77,Apply,I need help improving my resume. Which campus resources can help?
+78,Apply,I want to prepare for a software engineering internship interview. Which ISU resources are useful?
+79,Apply,I am struggling in calculus. What tutoring options are available?
+80,Apply,Which campus jobs are best for Computer Science students?
+81,Apply,I want to study abroad while staying on track for graduation. What should I do?
+82,Apply,If I am a transfer student with 45 credit hours from a community college how many more credits do I need to graduate from ISU?
+83,Apply,What steps should I follow to appeal an academic dismissal at ISU?
+84,Apply,How do I apply for on-campus housing at ISU and what are the deadlines?
+85,Apply,What is the process for requesting accommodations through the ISU Student Accessibility Services office?
+86,Apply,How can a graduate student at ISU apply for a teaching assistantship?
+87,Apply,Walk me through how to use the ISU course catalog to find prerequisites for a 400-level course.
+88,Apply,If I want to start a new student organization at ISU what steps do I follow?
+89,Analyze,Compare the Computer Science and Software Engineering curricula.
+90,Analyze,Analyze the pros and cons of living on-campus versus off-campus.
+91,Analyze,Compare Parks Library and Durham Center study environments.
+92,Analyze,Which ISU dining center is best for vegetarian students and why?
+93,Analyze,Compare scholarship opportunities for domestic and international students.
+94,Analyze,Analyze which semester is best for taking COM S 3110 based on prerequisites.
+95,Analyze,Compare internship support resources across different colleges.
+96,Analyze,Analyze the workload differences between SE 3190 and COM S 3090.
+97,Analyze,Compare research opportunities in AI versus cybersecurity at ISU.
+98,Analyze,Analyze the best campus housing options for engineering students.
+99,Analyze,Compare the benefits of joining ACM versus HackISU.
+100,Analyze,Analyze the time-management challenges of taking 18 credits.
+101,Analyze,Compare online versus in-person tutoring services.
+102,Analyze,Analyze which student resources are most useful during finals week.
+103,Analyze,Compare undergraduate and graduate research expectations.
+104,Analyze,Why might a student's financial aid package change between their freshman and sophomore year at ISU and what factors drive those changes?
+105,Analyze,What patterns exist in ISU's graduate school admission requirements across different departments and what do they suggest about departmental priorities?
+106,Analyze,Analyze how Iowa State's engineering curriculum is structured to prepare students for both industry careers and graduate school.
+107,Analyze,Break down the different types of scholarships available at ISU and identify which student profiles they are best suited for.
+108,Analyze,What are the main reasons a student might fail to graduate in four years at ISU based on degree requirements and course availability?
+109,Analyze,How do the prerequisites for ISU's Data Science program reflect the interdisciplinary nature of the field?
+110,Analyze,Analyze how ISU's student support services are distributed across the campus — are there gaps in coverage for specific student populations?
+111,Analyze,Analyze the course sequencing of ISU's Computer Science program and identify any potential bottleneck courses that could delay graduation.
+112,Evaluate,Which major is better for someone interested in AI: Computer Science or Software Engineering?
+113,Evaluate,Should freshmen live on campus or off campus?
+114,Evaluate,Which programming electives are most valuable for industry careers?
+115,Evaluate,Is joining the honors program worth it for engineering students?
+116,Evaluate,Which ISU dining center provides the best overall value?
+117,Evaluate,Should students prioritize internships or undergraduate research?
+118,Evaluate,Which campus job would best help build technical skills?
+119,Evaluate,Evaluate whether taking summer classes is a good idea for CS students.
+120,Evaluate,Which study strategies are most effective for COM S 3110?
+121,Evaluate,Should a student take difficult core classes together or spread them out?
+122,Evaluate,Which student organizations provide the best networking opportunities?
+123,Evaluate,Is pursuing a double major in Math and Computer Science worthwhile?
+124,Evaluate,Evaluate the best resources for preparing for career fairs.
+125,Evaluate,Which residence hall is best for first-year engineering students?
+126,Evaluate,Should students focus more on GPA or project experience for internships?
+127,Evaluate,Is ISU's current financial aid system equitable for first-generation college students? Defend your answer using available data.
+128,Evaluate,How effective is Iowa State's academic probation policy at actually helping students recover academically? What evidence supports your view?
+129,Evaluate,Should ISU expand its online course offerings? Weigh the pros and cons based on what you know about its current program structure.
+130,Evaluate,Critique ISU's approach to mental health services for students. What is working well and what are the most significant gaps?
+131,Evaluate,Is Iowa State's general education curriculum well-designed to produce well-rounded graduates? What would you change?
+132,Evaluate,Should a student choose Iowa State's MBA program over a peer institution's program? Build the argument for and against.
+133,Evaluate,How well does ISU's career services infrastructure prepare students for the job market and where does it fall short?
+134,Evaluate,Is the cost of attending Iowa State as an out-of-state student justified given the financial aid and program quality available?
+135,Evaluate,Is CyGPT's RAG system likely to produce more accurate answers about ISU than a general-purpose AI chatbot? Justify your reasoning.
+136,Create,Create a 4-year graduation plan for a Computer Science student interested in AI.
+137,Create,Design a weekly study schedule for a freshman engineering student.
+138,Create,Create a personalized campus involvement plan for an international student.
+139,Create,Generate a roadmap for getting a software engineering internship by sophomore year.
+140,Create,Create a balanced meal and fitness plan using ISU campus resources.
+141,Create,Draft an email to a professor asking for undergraduate research opportunities.
+142,Create,Create a semester-by-semester plan for a student pursuing a CS + Math double major.
+143,Create,Design a productivity system for managing coursework projects and internships.
+144,Create,Create a guide for surviving finals week at Iowa State.
+145,Create,Build a personalized resource list for a student struggling academically and socially.
+146,Create,Design a personalized 4-year academic roadmap for a first-generation Computer Science student at ISU who wants to enter the software industry.
+147,Create,Draft a welcome email to incoming ISU freshmen that summarizes the five most important things they should do in their first two weeks on campus.
+148,Create,Create a study plan for a student who is on academic probation and needs to raise their GPA from 1.7 to 2.0 in one semester at ISU.
+149,Create,Propose a new ISU student service or program that addresses an unmet need you can identify from the available information.
+150,Create,Write a comparison guide for a prospective student trying to decide between ISU's Computer Engineering and Electrical Engineering programs.
+151,Create,Design a one-page scholarship search checklist tailored specifically for ISU students based on what scholarships are actually available.
+152,Create,Create a FAQ document for international students applying to ISU's graduate programs covering visa housing and funding questions.
+153,Create,Draft a sample petition letter a student could use to appeal a grade with the ISU Academic Standards Committee.
+154,Create,Propose a structured mentorship program that ISU could implement for first-generation students drawing on existing campus resources.
+155,Create,Create a 12-month plan for an ISU student who wants to prepare for and apply to medical school after graduation.

@@ -42,8 +42,8 @@ CHUNK_SIZE    = 800   # characters
 CHUNK_OVERLAP = 150
 
 # ── Retrieval ─────────────────────────────────────────────────────────────────
-TOP_K_RETRIEVE = 20   # candidates from hybrid search before reranking
-TOP_K_FINAL    = 6    # chunks shown to GPT after reranking
+TOP_K_RETRIEVE = 30   # candidates from hybrid search before reranking
+TOP_K_FINAL    = 10    # chunks shown to GPT after reranking
 
 # Tiny but powerful cross-encoder (≈ 80 MB, downloads once)
 RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
