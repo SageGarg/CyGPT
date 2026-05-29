@@ -11,7 +11,7 @@ from src.history import (
 
 LOGO_PATH = Path(__file__).parent.parent / "static" / "logo.png"
 
-_PAGES = ["💬  Chat", "🎓  Degree Planner", "⚠️  Conflict Checker", "⚖️  Compare Majors"]
+_PAGES = ["💬  Chat", "🎓  Degree Planner", "⚠️  Pre Req Checker", "⚖️  Compare Majors"]
 
 
 def _render_recent_chats() -> None:

@@ -55,14 +55,81 @@ If you cannot find enough information, say so clearly."""
 
 def stream_degree_plan(
     major: str,
+    degree_type: str,
     chunks: List[Chunk],
 ) -> Generator[str, None, None]:
     ctx = _context(chunks)
+    
+    if degree_type == "Undergrad":
+        system_instruction = PLANNER_SYSTEM
+        user_prompt = f"Sources:\n\n{ctx}\n\nGenerate the 4-year undergraduate plan for: {major}"
+    elif degree_type == "Masters":
+        system_instruction = """You are CyGPT, an academic planning assistant for Iowa State University.
+Using ONLY the provided sources, generate a detailed 2-year graduate/master's semester-by-semester degree plan.
+
+Output format — use this EXACT markdown table structure for each year:
+
+### Year 1
+| Semester | Course | Credits |
+|----------|--------|---------|
+| Fall | COURSE NAME | N |
+| Spring | COURSE NAME | N |
+
+### Year 2
+| Semester | Course | Credits |
+|----------|--------|---------|
+| Fall | COURSE NAME | N |
+| Spring | COURSE NAME | N |
+
+Add a **Total credits** row at the end of each year.
+After all 2 years, add:
+- **Total degree credits:** N
+- **Notes:** core course requirements, creative component or thesis/non-thesis options, POSC (Program of Study Committee) deadlines, advisor requirements
+
+Cite sources like (Source N) after each semester block.
+If you cannot find enough information, say so clearly."""
+        user_prompt = f"Sources:\n\n{ctx}\n\nGenerate a detailed 2-year graduate/master's semester-by-semester plan for: {major}"
+    elif degree_type == "PhD":
+        system_instruction = """You are CyGPT, an academic planning assistant for Iowa State University.
+Using ONLY the provided sources, generate a detailed doctoral (PhD) degree plan.
+
+Output format:
+List the milestones, required seminar/core courses, research credits, and typical timeline (typically years 1-5). Use markdown headers and tables where appropriate.
+
+Provide:
+1. **Core Coursework & Seminars** (table of required core classes)
+2. **Key Milestones Timeline** (e.g. preliminary/qualifying exams, POSC approval, dissertation proposal, dissertation defense)
+3. **Research & Dissertation requirements**
+4. **Notes:** GPA thresholds, minimum credit requirements (typically 72 credits), and other graduate college policies
+
+Cite sources like (Source N) for requirements.
+If you cannot find enough information, say so clearly."""
+        user_prompt = f"Sources:\n\n{ctx}\n\nGenerate a detailed doctoral (PhD) plan for: {major}"
+    elif degree_type == "Certificate":
+        system_instruction = """You are CyGPT, an academic planning assistant for Iowa State University.
+Using ONLY the provided sources, generate a detailed Certificate program plan.
+
+Output format:
+List the required core courses, elective options, total credits needed, and any additional guidelines.
+
+Provide:
+1. **Certificate Overview** (short description and total credits, typically 12-20 credits)
+2. **Required Core Courses** (table of courses, titles, and credits)
+3. **Elective Course Options** (table of elective options)
+4. **Additional Requirements** (e.g. prerequisite knowledge, capstone projects, grade requirements)
+
+Cite sources like (Source N) for requirements.
+If you cannot find enough information, say so clearly."""
+        user_prompt = f"Sources:\n\n{ctx}\n\nGenerate a detailed Certificate plan for: {major}"
+    else:
+        system_instruction = PLANNER_SYSTEM
+        user_prompt = f"Sources:\n\n{ctx}\n\nGenerate a degree plan for: {major}"
+
     stream = client.chat.completions.create(
         model=CHAT_MODEL,
         messages=[
-            {"role": "system", "content": PLANNER_SYSTEM},
-            {"role": "user", "content": f"Sources:\n\n{ctx}\n\nGenerate the 4-year plan for: {major}"},
+            {"role": "system", "content": system_instruction},
+            {"role": "user", "content": user_prompt},
         ],
         temperature=0.1,
         stream=True,

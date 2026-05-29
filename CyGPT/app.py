@@ -11,7 +11,7 @@ from ui.auth_page import show as show_auth
 from ui.sidebar import render as render_sidebar
 import views.chat as chat_page
 import views.planner as planner_page
-import views.conflict as conflict_page
+import views.prereq as prereq_page
 import views.compare as compare_page
 
 st.set_page_config(
@@ -45,6 +45,6 @@ page = render_sidebar()
 {
     "💬  Chat":           chat_page,
     "🎓  Degree Planner": planner_page,
-    "⚠️  Conflict Checker": conflict_page,
+    "⚠️  Pre Req Checker": prereq_page,
     "⚖️  Compare Majors":  compare_page,
 }[page].render(chunks, faiss_index, bm25)

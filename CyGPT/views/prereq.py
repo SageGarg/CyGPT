@@ -8,7 +8,7 @@ from ui.components import render_sources
 def render(chunks, faiss_index, bm25) -> None:
     st.markdown("""
     <div class="hero">
-      <h1>⚠️ Conflict &amp; Prereq Checker</h1>
+      <h1>⚠️ Pre Req Checker</h1>
       <p>Paste your planned schedule — CyGPT flags missing prerequisites,
       wrong sequencing, and credit overloads.</p>
     </div>""", unsafe_allow_html=True)
