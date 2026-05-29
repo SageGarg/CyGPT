@@ -2,7 +2,7 @@
 CyGPT Feature Modules
 =====================
   1. degree_planner()    – generate a full 4-year schedule for any major
-  2. conflict_checker()  – detect prereq / sequencing violations in a schedule
+  2. prereq_checker()    – detect prereq / sequencing violations in a schedule
   3. compare_majors()    – side-by-side markdown table of two majors
   4. transcribe_audio()  – Whisper API voice → text
 """
@@ -32,8 +32,11 @@ def _context(chunks: List[Chunk]) -> str:
 
 # ── 1. Degree Planner ─────────────────────────────────────────────────────────
 
-PLANNER_SYSTEM = """You are CyGPT, an academic planning assistant for Iowa State University.
-Using ONLY the provided sources, generate a detailed 4-year semester-by-semester degree plan.
+_PLANNER_PROGRAMS = {
+    "undergrad": {
+        "retrieve_hint": "four year plan",
+        "system": """You are CyGPT, an academic planning assistant for Iowa State University.
+Using ONLY the provided sources, generate a detailed 4-year semester-by-semester undergraduate degree plan.
 
 Output format — use this EXACT markdown table structure for each year:
 
@@ -43,26 +46,117 @@ Output format — use this EXACT markdown table structure for each year:
 | Fall | COURSE NAME | N |
 | Spring | COURSE NAME | N |
 
+Repeat for Sophomore, Junior, and Senior years.
 Add a **Total credits** row at the end of each year.
 After all 4 years, add:
 - **Total degree credits:** N
-- **Notes:** any important requirements, GPA thresholds, application deadlines
+- **Notes:** GPA thresholds, gen-ed requirements, application deadlines
 
-If a four-year plan is directly in the sources, reproduce it faithfully.
-Cite sources like (Source N) after each semester block.
-If you cannot find enough information, say so clearly."""
+Flag any semester over 18 credits. If a four-year plan is in the sources, reproduce it faithfully.
+Cite sources like (Source N) after each year block.""",
+        "user_suffix": "Generate the 4-year undergraduate plan for",
+    },
+    "grad": {
+        "retrieve_hint": "graduate two year plan master's",
+        "system": """You are CyGPT, an academic planning assistant for Iowa State University.
+Using ONLY the provided sources, generate a detailed 2-year semester-by-semester master's degree plan.
+
+Output format — use this EXACT markdown table structure for each year:
+
+### Graduate Year 1
+| Semester | Course | Credits |
+|----------|--------|---------|
+| Fall | COURSE NAME | N |
+| Spring | COURSE NAME | N |
+
+### Graduate Year 2
+(same table structure)
+
+Add a **Total credits** row at the end of each year.
+After both years, add:
+- **Total degree credits:** N
+- **Notes:** thesis/creative component options, graduate credit limits (15/semester typical), deadlines
+
+Flag any semester over 15 credits. Cite sources like (Source N) after each year block.""",
+        "user_suffix": "Generate the 2-year master's graduate plan for",
+    },
+    "phd": {
+        "retrieve_hint": "PhD doctoral program plan coursework dissertation",
+        "system": """You are CyGPT, an academic planning assistant for Iowa State University.
+Using ONLY the provided sources, generate a doctoral (PhD) program plan — NOT a 4-year bachelor's layout.
+
+Output format:
+
+### Coursework phase
+| Term | Course / milestone | Credits |
+|------|------------------|---------|
+| ... | ... | ... |
+
+### Research & dissertation phase
+| Stage | Activity | Notes |
+|-------|----------|-------|
+| ... | ... | ... |
+
+Then add:
+- **Total program credits (if stated):** N
+- **Qualifying / comprehensive exams:** (from sources or "See advisor")
+- **Dissertation requirements:** brief summary from sources
+- **Notes:** residency, committee, typical timeline
+
+Cite sources like (Source N). If sources lack PhD detail, say what is missing and advise consulting the DOGE/advisor.""",
+        "user_suffix": "Generate the PhD doctoral program plan for",
+    },
+    "certificate": {
+        "retrieve_hint": "certificate program requirements courses credits",
+        "system": """You are CyGPT, an academic planning assistant for Iowa State University.
+Using ONLY the provided sources, generate a certificate program plan (typically shorter than a full degree).
+
+Output format:
+
+### Required courses
+| Course | Credits | Notes |
+|--------|---------|-------|
+| ... | ... | ... |
+
+### Suggested sequence
+| Term | Courses | Credits |
+|------|---------|---------|
+| ... | ... | ... |
+
+Then add:
+- **Total certificate credits:** N
+- **Notes:** admission requirements, stackability with a degree, transcript notation
+
+Cite sources like (Source N). If the certificate is course-list only (no semesters in sources), organize by requirement groups.""",
+        "user_suffix": "Generate the certificate program plan for",
+    },
+}
+
+
+def _planner_config(program_type: str) -> dict:
+    return _PLANNER_PROGRAMS.get(program_type, _PLANNER_PROGRAMS["undergrad"])
+
+
+def planner_retrieve_query(major: str, program_type: str) -> str:
+    cfg = _planner_config(program_type)
+    return f"{cfg['retrieve_hint']} {major} course sequence credits requirements"
 
 
 def stream_degree_plan(
     major: str,
     chunks: List[Chunk],
+    program_type: str = "undergrad",
 ) -> Generator[str, None, None]:
+    cfg = _planner_config(program_type)
     ctx = _context(chunks)
     stream = client.chat.completions.create(
         model=CHAT_MODEL,
         messages=[
-            {"role": "system", "content": PLANNER_SYSTEM},
-            {"role": "user", "content": f"Sources:\n\n{ctx}\n\nGenerate the 4-year plan for: {major}"},
+            {"role": "system", "content": cfg["system"]},
+            {
+                "role": "user",
+                "content": f"Sources:\n\n{ctx}\n\n{cfg['user_suffix']}: {major}",
+            },
         ],
         temperature=0.1,
         stream=True,
@@ -73,9 +167,9 @@ def stream_degree_plan(
             yield delta
 
 
-# ── 2. Conflict / Prereq Checker ─────────────────────────────────────────────
+# ── 2. Pre Req Checker ───────────────────────────────────────────────────────
 
-CONFLICT_SYSTEM = """You are CyGPT, an academic advisor assistant for Iowa State University.
+PREREQ_SYSTEM = """You are CyGPT, an academic advisor assistant for Iowa State University.
 A student will provide their planned course schedule. Using the provided catalog sources,
 check for:
   1. Missing prerequisites (taking a course before its prereq)
@@ -100,7 +194,7 @@ List courses/semesters that are correctly sequenced.
 If the sources don't contain enough info to verify a course, say "Could not verify" for that row."""
 
 
-def stream_conflict_check(
+def stream_prereq_check(
     schedule_text: str,
     major: str,
     chunks: List[Chunk],
@@ -109,7 +203,7 @@ def stream_conflict_check(
     stream = client.chat.completions.create(
         model=CHAT_MODEL,
         messages=[
-            {"role": "system", "content": CONFLICT_SYSTEM},
+            {"role": "system", "content": PREREQ_SYSTEM},
             {
                 "role": "user",
                 "content": (

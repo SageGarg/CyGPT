@@ -8,7 +8,7 @@ from src.indexer import Chunk, load_index
 from src.retriever import retrieve, retrieve_for_comparison
 from src.answerer import stream_answer
 from src.features import (
-    stream_degree_plan, stream_conflict_check,
+    stream_degree_plan, stream_prereq_check, planner_retrieve_query,
     stream_comparison, transcribe_audio, parse_followups,
 )
 
@@ -569,7 +569,10 @@ except FileNotFoundError:
     st.stop()
 
 # ── Session state ─────────────────────────────────────────────────────────────
-for k, v in {"messages": [], "history": [], "pending_q": None, "chat_titles": []}.items():
+for k, v in {
+    "messages": [], "history": [], "pending_q": None, "chat_titles": [],
+    "planner_program_type": "undergrad",
+}.items():
     if k not in st.session_state:
         st.session_state[k] = v
 
@@ -606,7 +609,7 @@ with st.sidebar:
     # ── Navigation ────────────────────────────────────────────────────────────
     page = st.radio(
         "Navigation",
-        ["💬  Chat", "🎓  Degree Planner", "⚠️  Conflict Checker", "⚖️  Compare Majors"],
+        ["💬  Chat", "🎓  Degree Planner", "📋  Pre Req Checker", "⚖️  Compare Majors"],
         label_visibility="collapsed",
     )
 
@@ -727,18 +730,50 @@ if page == "💬  Chat":
 #  DEGREE PLANNER
 # ══════════════════════════════════════════════════════════════════════════════
 elif page == "🎓  Degree Planner":
-    st.markdown("""
+    _planner_types = [
+        ("undergrad", "Undergrad"),
+        ("grad", "Master's"),
+        ("phd", "PhD"),
+        ("certificate", "Certificate"),
+    ]
+    _planner_blurbs = {
+        "undergrad": "4-year semester-by-semester bachelor's plan",
+        "grad": "2-year master's plan",
+        "phd": "doctoral coursework and research milestones",
+        "certificate": "certificate requirements and course sequence",
+    }
+
+    st.markdown('<div class="sec-label">Program type</div>', unsafe_allow_html=True)
+    program_type = st.session_state.get("planner_program_type", "undergrad")
+    pt_cols = st.columns(4)
+    for col, (key, label) in zip(pt_cols, _planner_types):
+        with col:
+            selected = program_type == key
+            if st.button(
+                label,
+                key=f"planner_type_{key}",
+                width="stretch",
+                type="primary" if selected else "secondary",
+            ):
+                if not selected:
+                    st.session_state.planner_program_type = key
+                    st.rerun()
+
+    blurb = _planner_blurbs.get(program_type, _planner_blurbs["undergrad"])
+    st.markdown(f"""
     <div class="hero">
       <h1>🎓 Degree Planner</h1>
-      <p>Enter any ISU major and get a full 4-year semester-by-semester plan
-      pulled directly from the catalog.</p>
+      <p>Choose your program type, then enter an ISU major or program name to get a
+      <span class="gold">{blurb}</span> pulled from the catalog.</p>
     </div>""", unsafe_allow_html=True)
 
     c1, c2 = st.columns([5, 1])
     with c1:
-        major_input = st.text_input("Major name",
-            placeholder="e.g. Computer Science, B.S.",
-            key="planner_major")
+        major_input = st.text_input(
+            "Major or program name",
+            placeholder="e.g. Computer Science, B.S. or Cyber Security Certificate",
+            key="planner_major",
+        )
     with c2:
         st.write("")
         st.write("")
@@ -746,35 +781,44 @@ elif page == "🎓  Degree Planner":
                         width="stretch", key="planner_go")
 
     if go and major_input.strip():
-        with st.spinner(f"Finding {major_input} requirements…"):
+        plan_label = {
+            "undergrad": "4-year",
+            "grad": "2-year master's",
+            "phd": "PhD",
+            "certificate": "certificate",
+        }.get(program_type, "")
+        with st.spinner(f"Building {plan_label} plan for {major_input}…"):
             hits = retrieve(
-                f"four year plan {major_input} course sequence credits requirements",
-                faiss_index, bm25, chunks, expand=True)
+                planner_retrieve_query(major_input.strip(), program_type),
+                faiss_index, bm25, chunks, expand=True,
+            )
         st.divider()
         with st.chat_message("assistant"):
             ph, result = st.empty(), ""
-            for tok in stream_degree_plan(major_input.strip(), hits):
+            for tok in stream_degree_plan(
+                major_input.strip(), hits, program_type=program_type
+            ):
                 result += tok; ph.markdown(result + "▌")
             ph.markdown(result)
             if hits:
                 with st.expander(f"📚 {len(hits)} sources used"):
                     render_sources(hits)
     elif go:
-        st.warning("Please enter a major name.")
+        st.warning("Please enter a major or program name.")
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  CONFLICT CHECKER
+#  PRE REQ CHECKER
 # ══════════════════════════════════════════════════════════════════════════════
-elif page == "⚠️  Conflict Checker":
+elif page == "📋  Pre Req Checker":
     st.markdown("""
     <div class="hero">
-      <h1>⚠️ Conflict &amp; Prereq Checker</h1>
+      <h1>📋 Pre Req Checker</h1>
       <p>Paste your planned schedule — CyGPT flags missing prerequisites,
       wrong sequencing, and credit overloads.</p>
     </div>""", unsafe_allow_html=True)
 
-    conflict_major = st.text_input("Your major",
-        placeholder="e.g. Computer Science, B.S.", key="conflict_major")
+    prereq_major = st.text_input("Your major",
+        placeholder="e.g. Computer Science, B.S.", key="prereq_major")
     schedule_input = st.text_area(
         "Your planned schedule (one semester per line)", height=200,
         placeholder=(
@@ -782,21 +826,21 @@ elif page == "⚠️  Conflict Checker":
             "Freshman Spring: COMS 2270, MATH 1660, ENGL 2500, LIB 1600\n"
             "Sophomore Fall:  COMS 2280, COMS 2300, MATH 2650\n"
             "Sophomore Spring: COMS 3210, COMS 3110, COMS 3000 elective\n..."
-        ), key="conflict_schedule")
+        ), key="prereq_schedule")
 
-    if st.button("Check my schedule", type="primary", key="conflict_go"):
+    if st.button("Check my schedule", type="primary", key="prereq_go"):
         if not schedule_input.strip():
             st.warning("Paste your schedule first.")
         else:
             with st.spinner("Checking prerequisites and sequencing…"):
                 hits = retrieve(
-                    f"{conflict_major} prerequisites required courses sequence",
+                    f"{prereq_major} prerequisites required courses sequence",
                     faiss_index, bm25, chunks, expand=True)
             st.divider()
             with st.chat_message("assistant"):
                 ph, result = st.empty(), ""
-                for tok in stream_conflict_check(
-                        schedule_input.strip(), conflict_major or "undeclared", hits):
+                for tok in stream_prereq_check(
+                        schedule_input.strip(), prereq_major or "undeclared", hits):
                     result += tok; ph.markdown(result + "▌")
                 ph.markdown(result)
                 if hits:
