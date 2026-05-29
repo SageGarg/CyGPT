@@ -11,6 +11,7 @@ from src.features import (
     stream_degree_plan, stream_conflict_check,
     stream_comparison, transcribe_audio, parse_followups,
 )
+from src.auth import login, register, validate_password, validate_username
 
 # ── Logo as base64 for CSS embedding ─────────────────────────────────────────
 LOGO_PATH = Path(__file__).parent / "static" / "logo.png"
@@ -557,6 +558,104 @@ hr { border: none !important; border-top: 1px solid var(--border-color) !importa
 </style>
 """, unsafe_allow_html=True)
 
+# ══════════════════════════════════════════════════════════════════════════════
+#  AUTH PAGE
+# ══════════════════════════════════════════════════════════════════════════════
+def _auth_page():
+    st.markdown("""
+    <style>
+    .auth-wrap {
+        max-width: 440px;
+        margin: 7vh auto 0;
+        background: #1C1C17;
+        border: 1px solid rgba(200,16,46,0.3);
+        border-radius: 20px;
+        padding: 44px 40px 36px;
+        box-shadow: 0 8px 48px rgba(200,16,46,0.15);
+    }
+    .auth-logo  { text-align:center; font-size:2.6rem; margin-bottom:4px; }
+    .auth-title { text-align:center; font-size:1.5rem; font-weight:900; color:#F5F0E8; margin-bottom:2px; }
+    .auth-sub   { text-align:center; font-size:0.82rem; color:#A89F8C; margin-bottom:30px; }
+    .auth-msg-error {
+        background: rgba(200,16,46,0.15); border:1px solid rgba(200,16,46,0.4);
+        border-radius:10px; padding:10px 16px; color:#FF8080;
+        font-size:0.85rem; margin-bottom:14px; text-align:center;
+    }
+    .auth-msg-ok {
+        background: rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.35);
+        border-radius:10px; padding:10px 16px; color:#6EE7B7;
+        font-size:0.85rem; margin-bottom:14px; text-align:center;
+    }
+    .auth-hint { font-size:0.78rem; color:#6B6355; margin-top:6px; padding-left:2px; }
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<div class="auth-wrap">', unsafe_allow_html=True)
+    st.markdown('<div class="auth-logo">🌪️</div>', unsafe_allow_html=True)
+    st.markdown('<div class="auth-title">CyGPT</div>', unsafe_allow_html=True)
+    st.markdown('<div class="auth-sub">Iowa State University Academic Assistant</div>', unsafe_allow_html=True)
+
+    tab_login, tab_signup = st.tabs(["Sign In", "Create Account"])
+
+    # ── Login tab ─────────────────────────────────────────────────────────────
+    with tab_login:
+        if st.session_state.get("_login_err"):
+            st.markdown(f'<div class="auth-msg-error">{st.session_state["_login_err"]}</div>', unsafe_allow_html=True)
+
+        lu = st.text_input("Username", key="_lu", placeholder="your username")
+        lp = st.text_input("Password", key="_lp", placeholder="your password", type="password")
+
+        if st.button("Sign In", type="primary", width="stretch", key="_login_btn"):
+            result = login(lu.strip(), lp)
+            if result:
+                st.session_state.update({
+                    "logged_in": True,
+                    "username": result[0],
+                    "display_name": result[1],
+                    "_login_err": None,
+                })
+                st.rerun()
+            else:
+                st.session_state["_login_err"] = "Incorrect username or password."
+                st.rerun()
+
+    # ── Sign-up tab ───────────────────────────────────────────────────────────
+    with tab_signup:
+        if st.session_state.get("_signup_err"):
+            st.markdown(f'<div class="auth-msg-error">{st.session_state["_signup_err"]}</div>', unsafe_allow_html=True)
+        if st.session_state.get("_signup_ok"):
+            st.markdown('<div class="auth-msg-ok">Account created! Sign in above.</div>', unsafe_allow_html=True)
+
+        su = st.text_input("Username", key="_su", placeholder="letters, numbers, underscores")
+        sn = st.text_input("Display name", key="_sn", placeholder="e.g. Jane Doe  (optional)")
+        sp = st.text_input("Password", key="_sp", placeholder="min 8 chars, one number", type="password")
+        sp2 = st.text_input("Confirm password", key="_sp2", placeholder="repeat password", type="password")
+        st.markdown('<div class="auth-hint">Requirements: at least 8 characters · at least one number</div>', unsafe_allow_html=True)
+
+        if st.button("Create Account", type="primary", width="stretch", key="_signup_btn"):
+            err = validate_username(su.strip()) or validate_password(sp)
+            if err:
+                st.session_state.update({"_signup_err": err, "_signup_ok": False})
+                st.rerun()
+            elif sp != sp2:
+                st.session_state.update({"_signup_err": "Passwords do not match.", "_signup_ok": False})
+                st.rerun()
+            else:
+                err = register(su.strip(), sn.strip(), sp)
+                if err:
+                    st.session_state.update({"_signup_err": err, "_signup_ok": False})
+                else:
+                    st.session_state.update({"_signup_err": None, "_signup_ok": True})
+                st.rerun()
+
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.stop()
+
+
+# ── Login gate ────────────────────────────────────────────────────────────────
+if not st.session_state.get("logged_in"):
+    _auth_page()
+
 # ── Load index ────────────────────────────────────────────────────────────────
 @st.cache_resource(show_spinner="📚 Loading index…")
 def _load():
@@ -633,11 +732,20 @@ with st.sidebar:
         )
 
     # ── User profile — pinned at bottom ──────────────────────────────────────
-    st.markdown("""
+    display = st.session_state.get("display_name", "User")
+    initials = "".join(w[0].upper() for w in display.split()[:2])
+    st.markdown(f"""
     <div class="sidebar-user">
-      <span class="name">👤 User</span>
+      <div class="avatar">{initials}</div>
+      <span class="name">{display}</span>
     </div>
     """, unsafe_allow_html=True)
+
+    if st.button("Sign Out", key="_logout_btn"):
+        for k in ["logged_in", "username", "display_name", "messages", "history",
+                  "pending_q", "chat_titles", "_login_err", "_signup_err", "_signup_ok"]:
+            st.session_state.pop(k, None)
+        st.rerun()
 
 # Handle "New Chat" navigation
 # (New Chat handled via button in sidebar)
