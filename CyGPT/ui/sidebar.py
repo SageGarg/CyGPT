@@ -2,9 +2,61 @@ from __future__ import annotations
 from pathlib import Path
 import streamlit as st
 
+from src.history import (
+    delete_conversation,
+    history_from_messages,
+    list_conversations,
+    load_conversation,
+)
+
 LOGO_PATH = Path(__file__).parent.parent / "static" / "logo.png"
 
 _PAGES = ["💬  Chat", "🎓  Degree Planner", "⚠️  Conflict Checker", "⚖️  Compare Majors"]
+
+
+def _render_recent_chats() -> None:
+    """List the signed-in user's saved conversations; load or delete on click."""
+    username = st.session_state.get("username")
+    if not username:
+        return
+
+    try:
+        convos = list_conversations(username)
+    except Exception as e:  # noqa: BLE001 — degrade gracefully if DB is down
+        st.markdown(
+            f'<div class="chat-history-item" style="color:#C8102E;">⚠️ {e}</div>',
+            unsafe_allow_html=True,
+        )
+        return
+
+    if not convos:
+        st.markdown(
+            '<div class="chat-history-item" style="color:#4A4038;font-style:italic;">No chats yet</div>',
+            unsafe_allow_html=True,
+        )
+        return
+
+    active = st.session_state.get("conversation_id")
+    for c in convos[:15]:
+        cid   = c["id"]
+        title = c.get("title") or "New chat"
+        title = (title[:30] + "…") if len(title) > 30 else title
+        label = ("🟢 " if cid == active else "💬 ") + title
+
+        col_open, col_del = st.columns([5, 1])
+        if col_open.button(label, key=f"open_{cid}", width="stretch"):
+            msgs = load_conversation(cid)
+            st.session_state.messages        = msgs
+            st.session_state.history         = history_from_messages(msgs)
+            st.session_state.conversation_id = cid
+            st.rerun()
+        if col_del.button("🗑", key=f"del_{cid}"):
+            delete_conversation(cid)
+            if cid == active:
+                st.session_state.messages        = []
+                st.session_state.history         = []
+                st.session_state.conversation_id = None
+            st.rerun()
 
 
 def render() -> str:
@@ -34,19 +86,11 @@ def render() -> str:
         if st.button("＋  New Chat", width="stretch"):
             st.session_state.messages = []
             st.session_state.history  = []
+            st.session_state.conversation_id = None
             st.rerun()
 
         st.markdown('<div class="sidebar-section-label">Recent chats</div>', unsafe_allow_html=True)
-        user_msgs = [m["content"] for m in st.session_state.get("messages", []) if m["role"] == "user"]
-        if user_msgs:
-            for msg in reversed(user_msgs[-5:]):
-                truncated = msg[:36] + "…" if len(msg) > 36 else msg
-                st.markdown(f'<div class="chat-history-item">💬 {truncated}</div>', unsafe_allow_html=True)
-        else:
-            st.markdown(
-                '<div class="chat-history-item" style="color:#4A4038;font-style:italic;">No chats yet</div>',
-                unsafe_allow_html=True,
-            )
+        _render_recent_chats()
 
         display  = st.session_state.get("display_name", "User")
         initials = "".join(w[0].upper() for w in display.split()[:2])
@@ -59,7 +103,8 @@ def render() -> str:
 
         if st.button("Sign Out", key="_logout_btn"):
             for k in ["logged_in", "username", "display_name", "messages", "history",
-                      "pending_q", "chat_titles", "_login_err", "_signup_err", "_signup_ok"]:
+                      "pending_q", "conversation_id", "chat_titles",
+                      "_login_err", "_signup_err", "_signup_ok"]:
                 st.session_state.pop(k, None)
             st.rerun()
 

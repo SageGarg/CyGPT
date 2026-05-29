@@ -36,7 +36,7 @@ except FileNotFoundError:
     st.error("No index found. Run `python ingest.py` first.")
     st.stop()
 
-for k, v in {"messages": [], "history": [], "pending_q": None}.items():
+for k, v in {"messages": [], "history": [], "pending_q": None, "conversation_id": None}.items():
     if k not in st.session_state:
         st.session_state[k] = v
 

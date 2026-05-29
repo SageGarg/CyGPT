@@ -3,6 +3,7 @@ import streamlit as st
 from src.retriever import retrieve
 from src.answerer import stream_answer
 from src.features import transcribe_audio, parse_followups
+from src.history import save_conversation
 from ui.components import render_sources
 
 
@@ -38,8 +39,10 @@ def render(chunks, faiss_index, bm25) -> None:
         with s3:
             st.write("")
             if st.button("🗑️ Clear conversation", width="stretch"):
+                # Start a fresh, unsaved chat — leaves any saved history intact.
                 st.session_state.messages = []
                 st.session_state.history  = []
+                st.session_state.conversation_id = None
                 st.rerun()
 
     if not st.session_state.messages:
@@ -114,4 +117,16 @@ def render(chunks, faiss_index, bm25) -> None:
             "role": "assistant", "content": main_text,
             "followups": followups, "sources": hits,
         })
+
+        # Persist this conversation to Supabase under the signed-in account.
+        if st.session_state.get("username"):
+            try:
+                st.session_state.conversation_id = save_conversation(
+                    st.session_state["username"],
+                    st.session_state.get("conversation_id"),
+                    st.session_state.messages,
+                )
+            except Exception as e:  # noqa: BLE001 — never let a save break chat
+                st.toast(f"Couldn't save chat history: {e}", icon="⚠️")
+
         st.rerun()
