@@ -6,10 +6,10 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
-
 # ── Paths ─────────────────────────────────────────────────────────────────────
 BASE_DIR  = Path(__file__).parent
+
+load_dotenv(BASE_DIR / ".env")
 DATA_DIR  = BASE_DIR / "data"
 PDF_DIR   = DATA_DIR / "pdfs"       # drop your PDFs here
 INDEX_DIR = DATA_DIR / "index"      # auto-created FAISS + BM25 files

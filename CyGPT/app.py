@@ -9,10 +9,10 @@ from src.indexer import load_index
 from ui.styles import inject_styles
 from ui.auth_page import show as show_auth
 from ui.sidebar import render as render_sidebar
-import pages.chat as chat_page
-import pages.planner as planner_page
-import pages.conflict as conflict_page
-import pages.compare as compare_page
+import views.chat as chat_page
+import views.planner as planner_page
+import views.conflict as conflict_page
+import views.compare as compare_page
 
 st.set_page_config(
     page_title="CyGPT | ISU Academic Assistant",
