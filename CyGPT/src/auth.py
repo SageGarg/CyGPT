@@ -2,26 +2,29 @@ from __future__ import annotations
 import hashlib
 import os
 import re
-import sqlite3
-from pathlib import Path
 
-DB_PATH = Path(__file__).parent.parent / "data" / "users.db"
+from supabase import Client, create_client
+
+from config import SUPABASE_KEY, SUPABASE_URL
+
+# Supabase table that holds user accounts. Mirrors the original SQLite schema:
+#   username (pk) · display_name · password_hash · salt · created_at
+USERS_TABLE = "users"
+
+_client: Client | None = None
 
 
-def _conn() -> sqlite3.Connection:
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    con = sqlite3.connect(str(DB_PATH))
-    con.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            username     TEXT PRIMARY KEY,
-            display_name TEXT NOT NULL,
-            password_hash TEXT NOT NULL,
-            salt         TEXT NOT NULL,
-            created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-    con.commit()
-    return con
+def _supabase() -> Client:
+    """Lazily build (and cache) the Supabase client."""
+    global _client
+    if _client is None:
+        if not SUPABASE_URL or not SUPABASE_KEY:
+            raise RuntimeError(
+                "Supabase is not configured. Set SUPABASE_URL and SUPABASE_KEY "
+                "in your .env file."
+            )
+        _client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    return _client
 
 
 def _hash(password: str, salt: str) -> str:
@@ -58,30 +61,40 @@ def register(username: str, display_name: str, password: str) -> str | None:
         return err
 
     salt = os.urandom(16).hex()
-    con = _conn()
     try:
-        con.execute(
-            "INSERT INTO users (username, display_name, password_hash, salt) VALUES (?, ?, ?, ?)",
-            (username.lower(), display_name, _hash(password, salt), salt),
-        )
-        con.commit()
+        _supabase().table(USERS_TABLE).insert(
+            {
+                "username": username.lower(),
+                "display_name": display_name,
+                "password_hash": _hash(password, salt),
+                "salt": salt,
+            }
+        ).execute()
         return None
-    except sqlite3.IntegrityError:
-        return "Username already taken — please choose another."
-    finally:
-        con.close()
+    except Exception as exc:  # noqa: BLE001 — surface a friendly message
+        msg = str(exc).lower()
+        # Postgres unique-violation (code 23505) → username already exists.
+        if "duplicate" in msg or "23505" in msg or "already exists" in msg:
+            return "Username already taken — please choose another."
+        return f"Could not create account: {exc}"
 
 
 def login(username: str, password: str) -> tuple[str, str] | None:
     """Returns (username, display_name) on success, or None on failure."""
-    con = _conn()
-    try:
-        row = con.execute(
-            "SELECT display_name, password_hash, salt FROM users WHERE username = ?",
-            (username.strip().lower(),),
-        ).fetchone()
-        if row and _hash(password, row[2]) == row[1]:
-            return username.strip().lower(), row[0]
+    uname = username.strip().lower()
+    resp = (
+        _supabase()
+        .table(USERS_TABLE)
+        .select("display_name, password_hash, salt")
+        .eq("username", uname)
+        .limit(1)
+        .execute()
+    )
+    rows = resp.data or []
+    if not rows:
         return None
-    finally:
-        con.close()
+
+    row = rows[0]
+    if _hash(password, row["salt"]) == row["password_hash"]:
+        return uname, row["display_name"]
+    return None

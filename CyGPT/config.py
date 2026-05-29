@@ -21,6 +21,13 @@ for _d in [PDF_DIR, INDEX_DIR, CACHE_DIR]:
 # ── OpenAI ────────────────────────────────────────────────────────────────────
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
+# ── Supabase (user accounts / auth) ─────────────────────────────────────────────
+#   SUPABASE_URL : your project URL, e.g. https://xxxx.supabase.co
+#   SUPABASE_KEY : the service_role key (server-side; bypasses RLS for the
+#                  users table). Keep this secret — never expose it client-side.
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
+
 #   text-embedding-3-small  →  1536 dims  (fast, cheap)
 #   text-embedding-3-large  →  3072 dims  (best quality, swap below)
 EMBED_MODEL = "text-embedding-ada-002"

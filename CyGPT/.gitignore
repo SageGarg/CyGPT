@@ -2,3 +2,7 @@ pi515/
 pi515.zip
 data/index/
 data/cache
+.env
+data/users.db
+__pycache__/
+*.pyc
