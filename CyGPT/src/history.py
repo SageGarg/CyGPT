@@ -79,13 +79,13 @@ def _title_from_messages(messages: list[dict]) -> str:
 
 # ── Public API ──────────────────────────────────────────────────────────────
 
-def list_conversations(username: str) -> list[dict]:
+def list_conversations(user_id: int) -> list[dict]:
     """Return [{id, title, updated_at}, …] for a user, newest first."""
     resp = (
         _supabase()
         .table(CONVERSATIONS_TABLE)
         .select("id, title, updated_at")
-        .eq("username", username)
+        .eq("user_id", user_id)
         .order("updated_at", desc=True)
         .execute()
     )
@@ -108,7 +108,7 @@ def load_conversation(conv_id: str) -> list[dict]:
     return _deserialize_messages(rows[0].get("messages"))
 
 
-def save_conversation(username: str, conv_id: str | None, messages: list[dict]) -> str:
+def save_conversation(user_id: int, conv_id: str | None, messages: list[dict]) -> str:
     """
     Upsert a conversation and return its id.
 
@@ -117,7 +117,7 @@ def save_conversation(username: str, conv_id: str | None, messages: list[dict]) 
     updated.
     """
     payload = {
-        "username": username,
+        "user_id": user_id,
         "title": _title_from_messages(messages),
         "messages": _serialize_messages(messages),
         "updated_at": datetime.now(timezone.utc).isoformat(),

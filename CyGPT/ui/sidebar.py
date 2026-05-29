@@ -16,12 +16,12 @@ _PAGES = ["💬  Chat", "🎓  Degree Planner", "⚠️  Conflict Checker", "⚖
 
 def _render_recent_chats() -> None:
     """List the signed-in user's saved conversations; load or delete on click."""
-    username = st.session_state.get("username")
-    if not username:
+    user_id = st.session_state.get("user_id")
+    if user_id is None:
         return
 
     try:
-        convos = list_conversations(username)
+        convos = list_conversations(user_id)
     except Exception as e:  # noqa: BLE001 — degrade gracefully if DB is down
         st.markdown(
             f'<div class="chat-history-item" style="color:#C8102E;">⚠️ {e}</div>',
@@ -102,9 +102,9 @@ def render() -> str:
         """, unsafe_allow_html=True)
 
         if st.button("Sign Out", key="_logout_btn"):
-            for k in ["logged_in", "username", "display_name", "messages", "history",
-                      "pending_q", "conversation_id", "chat_titles",
-                      "_login_err", "_signup_err", "_signup_ok"]:
+            for k in ["logged_in", "username", "display_name", "user_id",
+                      "messages", "history", "pending_q", "conversation_id",
+                      "chat_titles", "_login_err", "_signup_err", "_signup_ok"]:
                 st.session_state.pop(k, None)
             st.rerun()
 

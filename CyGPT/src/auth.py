@@ -79,13 +79,13 @@ def register(username: str, display_name: str, password: str) -> str | None:
         return f"Could not create account: {exc}"
 
 
-def login(username: str, password: str) -> tuple[str, str] | None:
-    """Returns (username, display_name) on success, or None on failure."""
+def login(username: str, password: str) -> tuple[str, str, int] | None:
+    """Returns (username, display_name, user_id) on success, or None on failure."""
     uname = username.strip().lower()
     resp = (
         _supabase()
         .table(USERS_TABLE)
-        .select("display_name, password_hash, salt")
+        .select("id, display_name, password_hash, salt")
         .eq("username", uname)
         .limit(1)
         .execute()
@@ -96,5 +96,5 @@ def login(username: str, password: str) -> tuple[str, str] | None:
 
     row = rows[0]
     if _hash(password, row["salt"]) == row["password_hash"]:
-        return uname, row["display_name"]
+        return uname, row["display_name"], row["id"]
     return None

@@ -119,10 +119,10 @@ def render(chunks, faiss_index, bm25) -> None:
         })
 
         # Persist this conversation to Supabase under the signed-in account.
-        if st.session_state.get("username"):
+        if st.session_state.get("user_id") is not None:
             try:
                 st.session_state.conversation_id = save_conversation(
-                    st.session_state["username"],
+                    st.session_state["user_id"],
                     st.session_state.get("conversation_id"),
                     st.session_state.messages,
                 )

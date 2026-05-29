@@ -27,6 +27,7 @@ def show() -> None:
                     "logged_in": True,
                     "username": result[0],
                     "display_name": result[1],
+                    "user_id": result[2],
                     "_login_err": None,
                 })
                 st.rerun()
