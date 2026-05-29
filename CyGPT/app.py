@@ -86,7 +86,9 @@ section.main > div,
 header[data-testid="stHeader"],
 #MainMenu, footer,
 [data-testid="stToolbar"],
-[data-testid="stDecoration"] {
+[data-testid="stDecoration"],
+[data-testid="stSidebarNav"],
+[data-testid="stSidebarNav"] + div {
     display: none !important;
 }
 
